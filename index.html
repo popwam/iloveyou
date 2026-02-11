@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+  <link rel="stylesheet" href="ass/css/style.css">
+  <title>🎁 هدية</title>
+
+</head>
+
+<body>
+  <div class="hearts" id="hearts"></div>
+
+  <main class="center" id="login">
+    <section class="card" style="width:min(520px,100%)">
+      <h1>🎁 هدية صغيرة</h1>
+      <p>اكتبي كلمة السر… وأنا هفتحلك المفاجأة 😌</p>
+
+      <div style="margin:10px 0 12px">
+        <input id="pw" type="password" placeholder="كلمة السر" autocomplete="off"/>
+      </div>
+
+      <div class="row">
+        <button class="btn" id="enterBtn">دخول</button>
+        <button class="btn secondary" id="audioTryBtn">🔊 جرّبي تشغيل الموسيقى</button>
+      </div>
+
+      <p class="small" style="margin-top:10px">
+        ملاحظة: بعض الموبايلات بتمنع الصوت الأوتوماتيك إلا بعد لمسة.
+      </p>
+    </section>
+  </main>
+
+  <!-- APP -->
+  <div id="app" class="hidden">
+    <div class="top">
+      <div class="bar">
+        <div class="pill"><span class="dot"></span> مفاجأة ❤️</div>
+        <button class="btn secondary" id="audioBtn">🔊 تشغيل</button>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <section class="hero">
+        <h2 class="heroTitle" id="heroTitle">يا Rana ✨</h2>
+        <p>في هنا شوية كلام… شوية صور… وفي الآخر رسالة ما تتفتحش غير يوم 14/2 ❤️</p>
+
+        <div class="metaRow">
+          <div class="chip">⏳ <span>بقالنا:</span> <b id="togetherCounter">—</b></div>
+          <div class="chip">🗓️ <span>من:</span> 23/1</div>
+        </div>
+      </section>
+
+      <section class="grid">
+        <div class="card">
+          <h3>💬 رسايل</h3>
+          <div class="msgs" id="msgs"></div>
+        </div>
+
+        <div class="card">
+          <h3>📸 سكرينات / صور</h3>
+          <p class="small">اضغطي على أي صورة علشان تتفتح كاملة.</p>
+          <div class="gallery" id="gallery"></div>
+        </div>
+
+        <div class="card">
+          <h3>🗓️ تواريخ بتاعتنا</h3>
+          <div class="timeline" id="timeline"></div>
+
+          <div style="margin-top:10px" class="titem">
+            <div class="tdate">⏱️ مدة المكالمات</div>
+            <div style="margin-top:6px;color:rgba(244,246,255,.85)">
+              47س • 53د  &nbsp;&nbsp;|&nbsp;&nbsp;  50س
+            </div>
+            <div class="small">(+ غير الرسايل الغزل البشرية 😄)</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>🔒 رسالة 14/2</h3>
+          <div class="lockRow">
+            <button class="btn" id="openFinalBtn">🎀 افتحي الرسالة</button>
+            <span class="status" id="lockStatus">جارِ التحقق…</span>
+          </div>
+          <div class="finalBox" id="finalBox"></div>
+          <div class="mask" id="earlyReveal"></div>
+          <p class="small" style="margin-top:10px">
+            القفل هنا على وقت الجهاز (UTC عالمي).
+          </p>
+        </div>
+      </section>
+
+      <p class="small" style="text-align:center;margin:18px 0 0">Made with ❤️</p>
+    </div>
+
+    <audio id="bgm" preload="auto" loop>
+      <source src="ass/song/song.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modalBack" id="modalBack">
+    <div class="modal">
+      <h3 id="mTitle">…</h3>
+      <p id="mText">…</p>
+      <div id="mExtra"></div>
+      <div class="modalActions" id="mActions"></div>
+    </div>
+  </div>
+<script src="ass/js/script.js"></script>
+</body>
+</html>
