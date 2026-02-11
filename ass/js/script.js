@@ -50,24 +50,29 @@
     }
   }
 
-  function openModal({title, text, extraHtml="", actions=[]}){
-    $("mTitle").textContent = title;
-    $("mText").innerHTML = text;
-    $("mExtra").innerHTML = extraHtml;
+function openModal({title, text, extraHtml="", actions=[]}){
+  $("mTitle").textContent = title;
+  $("mText").innerHTML = text;
+  $("mExtra").innerHTML = extraHtml;
 
-    const a = $("mActions");
-    a.innerHTML = "";
-    actions.forEach(btn=>{
-      const b = document.createElement("button");
-      b.className = "btn" + (btn.secondary ? " secondary" : "");
-      b.textContent = btn.label;
-      b.onclick = ()=>btn.onClick();
-      a.appendChild(b);
-    });
+  const a = $("mActions");
+  a.innerHTML = "";
+  actions.forEach(btn=>{
+    const b = document.createElement("button");
+    b.className = "btn" + (btn.secondary ? " secondary" : "");
+    b.textContent = btn.label;
+    b.onclick = ()=>btn.onClick();
+    a.appendChild(b);
+  });
 
-    $("modalBack").style.display="flex";
-  }
-  function closeModal(){ $("modalBack").style.display="none"; }
+  document.body.classList.add("modal-open");   // ✅ الجديد
+  $("modalBack").style.display="flex";
+}
+
+function closeModal(){
+  document.body.classList.remove("modal-open"); // ✅ الجديد
+  $("modalBack").style.display="none";
+}
 
   function renderMessages(){
     const wrap=$("msgs"); wrap.innerHTML="";
