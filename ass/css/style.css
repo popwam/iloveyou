@@ -1,196 +1,230 @@
 :root{
---bg:#070a12;
---card:rgba(255,255,255,.06);
---border:rgba(255,255,255,.10);
---txt:#f4f6ff;
---muted:rgba(244,246,255,.72);
---a:#ff3b88;
---b:#7c4dff;
+  --bg:#070a12;
+  --card:rgba(255,255,255,.06);
+  --border:rgba(255,255,255,.10);
+  --txt:#f4f6ff;
+  --muted:rgba(244,246,255,.72);
+  --a:#ff3b88;
+  --b:#7c4dff;
 }
+
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+
 body{
-margin:0; color:var(--txt);
-font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial;
-background:
-radial-gradient(900px 600px at 85% 10%, rgba(124,77,255,.20), transparent 60%),
-radial-gradient(900px 600px at 15% 25%, rgba(255,59,136,.18), transparent 55%),
-var(--bg);
-min-height:100vh;
-overflow-x:hidden;
+  margin:0;
+  color:var(--txt);
+  font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial;
+  background:
+    radial-gradient(900px 600px at 85% 10%, rgba(124,77,255,.20), transparent 60%),
+    radial-gradient(900px 600px at 15% 25%, rgba(255,59,136,.18), transparent 55%),
+    var(--bg);
+  min-height:100vh;
+
+  /* ✅ مهم: خليها كده */
+  overflow-x:hidden;
+  overflow-y:auto;
 }
+
+/* ✅ اقفل الاسكرول بس وقت المودال */
+body.modal-open{
+  overflow:hidden;
+}
+
 .wrap{max-width:520px;margin:0 auto;padding:14px 14px 90px}
 .top{
-position:sticky;top:0;z-index:9;
-background:rgba(7,10,18,.55);
-backdrop-filter: blur(10px);
-border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:9;
+  background:rgba(7,10,18,.55);
+  backdrop-filter: blur(10px);
+  border-bottom:1px solid var(--border);
 }
 .bar{max-width:520px;margin:0 auto;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px}
 .pill{
-display:inline-flex;align-items:center;gap:8px;
-padding:9px 12px;border:1px solid var(--border);
-border-radius:999px;background:rgba(255,255,255,.04);
-font-size:13px;color:rgba(244,246,255,.92)
+  display:inline-flex;align-items:center;gap:8px;
+  padding:9px 12px;border:1px solid var(--border);
+  border-radius:999px;background:rgba(255,255,255,.04);
+  font-size:13px;color:rgba(244,246,255,.92)
 }
 .dot{width:8px;height:8px;border-radius:50%;background:var(--a);box-shadow:0 0 18px rgba(255,59,136,.75)}
 .btn{
-border:0;border-radius:14px;
-padding:10px 12px;font-weight:900;color:#fff;
-background:linear-gradient(135deg,var(--a),var(--b));
-box-shadow:0 14px 30px rgba(255,59,136,.16);
-cursor:pointer;
+  border:0;border-radius:14px;
+  padding:10px 12px;font-weight:900;color:#fff;
+  background:linear-gradient(135deg,var(--a),var(--b));
+  box-shadow:0 14px 30px rgba(255,59,136,.16);
+  cursor:pointer;
 }
 .btn.secondary{
-background:rgba(255,255,255,.06);
-border:1px solid var(--border);
-box-shadow:none;
+  background:rgba(255,255,255,.06);
+  border:1px solid var(--border);
+  box-shadow:none;
 }
 .card{
-background:var(--card);
-border:1px solid var(--border);
-border-radius:20px;
-padding:14px;
-box-shadow:0 18px 50px rgba(0,0,0,.35);
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:14px;
+  box-shadow:0 18px 50px rgba(0,0,0,.35);
 }
 h1,h2,h3{margin:0 0 10px}
 p{margin:8px 0;color:var(--muted);line-height:1.8}
 input{
-width:100%;
-border-radius:14px;
-border:1px solid var(--border);
-background:rgba(0,0,0,.22);
-color:var(--txt);
-padding:12px 14px;
-outline:none;
-font-size:15px;
+  width:100%;
+  border-radius:14px;
+  border:1px solid var(--border);
+  background:rgba(0,0,0,.22);
+  color:var(--txt);
+  padding:12px 14px;
+  outline:none;
+  font-size:15px;
 }
 .row{display:flex;gap:10px;align-items:center}
 .row > *{flex:1}
 .center{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px}
 .hidden{display:none!important}
+
 .hearts{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:1}
 .heart{
-position:absolute;bottom:-40px;width:14px;height:14px;
-transform:rotate(45deg);background:var(--a);opacity:.14;
-animation:floatUp linear infinite;
+  position:absolute;bottom:-40px;width:14px;height:14px;
+  transform:rotate(45deg);background:var(--a);opacity:.14;
+  animation:floatUp linear infinite;
 }
 .heart:before,.heart:after{content:"";position:absolute;width:14px;height:14px;border-radius:50%;background:var(--a)}
 .heart:before{left:-7px;top:0}
 .heart:after{left:0;top:-7px}
 @keyframes floatUp{
-from{transform: translateY(0) rotate(45deg) scale(.9); opacity:0}
-12%{opacity:.14}
-to{transform: translateY(-115vh) rotate(45deg) scale(1.2); opacity:0}
+  from{transform: translateY(0) rotate(45deg) scale(.9); opacity:0}
+  12%{opacity:.14}
+  to{transform: translateY(-115vh) rotate(45deg) scale(1.2); opacity:0}
 }
+
 .hero{padding:14px 0 10px;position:relative;z-index:2}
 .heroTitle{font-size:22px}
 .metaRow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}
 .chip{
-display:inline-flex;align-items:center;gap:8px;
-padding:9px 12px;border-radius:999px;
-border:1px solid rgba(255,255,255,.12);
-background:rgba(0,0,0,.18);
-color:rgba(244,246,255,.88);
-font-weight:900;
-font-size:13px;
+  display:inline-flex;align-items:center;gap:8px;
+  padding:9px 12px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(0,0,0,.18);
+  color:rgba(244,246,255,.88);
+  font-weight:900;
+  font-size:13px;
 }
 .chip span{color:rgba(244,246,255,.70);font-weight:800}
 .grid{display:grid;gap:12px;position:relative;z-index:2}
 .msgs{display:grid;gap:10px}
 .msg{
-padding:12px;border-radius:16px;
-border:1px solid rgba(255,255,255,.10);
-background:rgba(0,0,0,.18);
-opacity:0; transform: translateY(10px);
-animation: pop .7s ease forwards;
+  padding:12px;border-radius:16px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(0,0,0,.18);
+  opacity:0; transform: translateY(10px);
+  animation: pop .7s ease forwards;
 }
 .msg:nth-child(1){animation-delay:.15s}
 .msg:nth-child(2){animation-delay:.35s}
 .msg:nth-child(3){animation-delay:.55s}
 .msg:nth-child(4){animation-delay:.75s}
 @keyframes pop{to{opacity:1;transform:none}}
+
 .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .ph{
-aspect-ratio:1/1;border-radius:16px;overflow:hidden;
-border:1px solid rgba(255,255,255,.10);
-background:rgba(255,255,255,.05);
-position:relative; cursor:pointer;
+  aspect-ratio:1/1;border-radius:16px;overflow:hidden;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.05);
+  position:relative; cursor:pointer;
 }
 .ph img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.02);transition:transform .25s ease}
 .ph:active img{transform:scale(1.08)}
 .ph::after{
-content:""; position:absolute; inset:0;
-background: radial-gradient(280px 180px at 15% 10%, rgba(255,59,136,.18), transparent 60%),
-radial-gradient(280px 180px at 90% 85%, rgba(124,77,255,.14), transparent 60%);
-pointer-events:none;
+  content:""; position:absolute; inset:0;
+  background: radial-gradient(280px 180px at 15% 10%, rgba(255,59,136,.18), transparent 60%),
+              radial-gradient(280px 180px at 90% 85%, rgba(124,77,255,.14), transparent 60%);
+  pointer-events:none;
 }
 .timeline{display:grid;gap:10px}
 .titem{
-padding:12px;border-radius:16px;
-border:1px solid rgba(255,255,255,.10);
-background:rgba(0,0,0,.16);
+  padding:12px;border-radius:16px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(0,0,0,.16);
 }
 .tdate{font-weight:900}
 .small{font-size:12px;color:rgba(244,246,255,.62)}
 .lockRow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .status{padding:9px 12px;border-radius:999px;border:1px dashed rgba(255,255,255,.18);font-size:13px;color:rgba(244,246,255,.75)}
 .finalBox{
-margin-top:12px; padding:14px; border-radius:18px;
-border:1px solid rgba(255,255,255,.12);
-background:rgba(0,0,0,.20);
-display:none; white-space:pre-wrap; line-height:1.9;
+  margin-top:12px; padding:14px; border-radius:18px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(0,0,0,.20);
+  display:none; white-space:pre-wrap; line-height:1.9;
 }
 .mask{
-display:none;
-margin-top:10px;
-padding:12px;
-border-radius:16px;
-border:1px dashed rgba(255,255,255,.18);
-background:rgba(0,0,0,.14);
-color:rgba(244,246,255,.78);
-font-size:13px;
-line-height:1.9;
+  display:none;
+  margin-top:10px;
+  padding:12px;
+  border-radius:16px;
+  border:1px dashed rgba(255,255,255,.18);
+  background:rgba(0,0,0,.14);
+  color:rgba(244,246,255,.78);
+  font-size:13px;
+  line-height:1.9;
 }
 .mask .blur{
-filter: blur(3px);
-opacity:.75;
-user-select:none;
+  filter: blur(3px);
+  opacity:.75;
+  user-select:none;
 }
-/* Modal */
+
+/* ✅ MODAL (center 100%) */
 .modalBack{
-position:fixed; inset:0; z-index:99;
-background:rgba(0,0,0,.62);
-display:none; align-items:center; justify-content:center;
-padding:18px;
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:rgba(0,0,0,.62);
+
+  display:none;
+  align-items:center;
+  justify-content:center;
+
+  padding:18px;
+  overscroll-behavior: contain;
 }
+
 .modal{
-width:min(520px,100%);
-border-radius:22px;
-border:1px solid rgba(255,255,255,.12);
-background:rgba(12,16,28,.92);
-backdrop-filter: blur(10px);
-padding:14px;
-box-shadow:0 30px 80px rgba(0,0,0,.55);
+  width:min(520px,100%);
+  max-height: calc(100vh - 36px);
+  overflow:auto;
+
+  margin:0;
+
+  border-radius:22px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(12,16,28,.92);
+  backdrop-filter: blur(10px);
+  padding:14px;
+  box-shadow:0 30px 80px rgba(0,0,0,.55);
+
+  text-align:center;
 }
+
 .modal h3{margin:4px 0 8px}
 .modal p{margin:6px 0 12px}
-.modalActions{display:flex;gap:10px;flex-wrap:wrap}
+.modalActions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
 .modalActions button{flex:1}
 .modal input{margin:10px 0 0}
+
 .lightImg{
-width:100%;
-border-radius:18px;
-border:1px solid rgba(255,255,255,.12);
-overflow:hidden;
-background:rgba(0,0,0,.25);
+  width:100%;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.12);
+  overflow:hidden;
+  background:rgba(0,0,0,.25);
 }
 .lightImg img{width:100%;height:auto;display:block}
-/* Broken mode (بعد 5 غلطات) */
+
+/* Broken mode */
 body.broken{
---bg:#05060b;
---a:#ff2b2b;
---b:#6d6d6d;
-filter:saturate(.65);
+  --bg:#05060b;
+  --a:#ff2b2b;
+  --b:#6d6d6d;
+  filter:saturate(.65);
 }
 body.broken .pill .dot{background:#ff2b2b;box-shadow:0 0 18px rgba(255,43,43,.7)}
 body.broken .card, body.broken .msg, body.broken .titem{border-color:rgba(255,255,255,.16)}
