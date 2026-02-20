@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
   <link rel="stylesheet" href="ass/css/style.css">
   <title>🎁 هدية</title>
-
 </head>
 
 <body>
@@ -22,12 +21,7 @@
 
       <div class="row">
         <button class="btn" id="enterBtn">دخول</button>
-        <button class="btn secondary" id="audioTryBtn">🔊 جرّبي تشغيل الموسيقى</button>
       </div>
-
-      <p class="small" style="margin-top:10px">
-        ملاحظة: بعض الموبايلات بتمنع الصوت الأوتوماتيك إلا بعد لمسة.
-      </p>
     </section>
   </main>
 
@@ -43,7 +37,7 @@
     <div class="wrap">
       <section class="hero">
         <h2 class="heroTitle" id="heroTitle">يا Rana ✨</h2>
-        <p>في هنا شوية كلام… شوية صور… وفي الآخر رسالة ما تتفتحش غير يوم 14/2 ❤️</p>
+        <p>في هنا شوية كلام… شوية صور… وفي الآخر رسالة  ❤️</p>
 
         <div class="metaRow">
           <div class="chip">⏳ <span>بقالنا:</span> <b id="togetherCounter">—</b></div>
@@ -63,6 +57,22 @@
           <div class="gallery" id="gallery"></div>
         </div>
 
+        <!-- ✅ ألبوم الخطوبة -->
+        <div class="card">
+          <h3>💍 ألبوم الخطوبة</h3>
+          <div class="metaRow" style="margin-top:6px">
+            <div class="chip">📸 صور: <b id="engPhotosCount">—</b></div>
+            <div class="chip">🎥 فيديو: <b id="engVideosCount">—</b></div>
+          </div>
+
+          <p class="small">صور الخطوبة مرتبة هنا. اضغطي على أي صورة للتكبير.</p>
+          <div class="gallery" id="engGallery"></div>
+
+          <div style="margin-top:10px"></div>
+          <p class="small">الفيديوهات:</p>
+          <div class="vGallery" id="engVideos"></div>
+        </div>
+
         <div class="card">
           <h3>🗓️ تواريخ بتاعتنا</h3>
           <div class="timeline" id="timeline"></div>
@@ -70,9 +80,8 @@
           <div style="margin-top:10px" class="titem">
             <div class="tdate">⏱️ مدة المكالمات</div>
             <div style="margin-top:6px;color:rgba(244,246,255,.85)">
-              47س • 53د  &nbsp;&nbsp;|&nbsp;&nbsp;  50س
+              57س • 46د  &nbsp;&nbsp;|&nbsp;&nbsp;  24ث
             </div>
-            <div class="small">(+ غير الرسايل الغزل البشرية 😄)</div>
           </div>
         </div>
 
@@ -85,6 +94,17 @@
           <div class="finalBox" id="finalBox"></div>
           <div class="mask" id="earlyReveal"></div>
         </div>
+
+        <!-- ✅ رسالة رمضان -->
+        <div class="card">
+          <h3>🌙 رسالة رمضان (مقفولة لحد العيد)</h3>
+          <div class="lockRow">
+            <button class="btn" id="openRamadanBtn">🎁 افتحي الرسالة</button>
+            <span class="status" id="ramadanStatus">جارِ التحقق…</span>
+          </div>
+          <div class="finalBox" id="ramadanBox"></div>
+        </div>
+
       </section>
 
       <p class="small" style="text-align:center;margin:18px 0 0">Made with ❤️</p>
@@ -104,6 +124,7 @@
       <div class="modalActions" id="mActions"></div>
     </div>
   </div>
-<script src="ass/js/script.js"></script>
+
+  <script src="ass/js/script.js"></script>
 </body>
 </html>
