@@ -58,7 +58,7 @@ const IMAGES = [
 
 // ✅ ألبوم الخطوبة (حالياً 66 صورة)
 const ENG_PHOTOS_COUNT = 66;
-const ENG_VIDEOS_COUNT = 15;
+const ENG_VIDEOS_COUNT = 13;
 
 const ENG_PHOTOS_DIR = "ass/engagement/photos/";
 const ENG_VIDEOS_DIR = "ass/engagement/videos/";
@@ -85,7 +85,11 @@ const RAMADAN_MESSAGE = `
 const $ = (id)=>document.getElementById(id);
 const show = (el)=>el.classList.remove("hidden");
 const hide = (el)=>el.classList.add("hidden");
-
+function on(id, event, handler, opts){
+  const el = $(id);
+  if(!el) return;
+  el.addEventListener(event, handler, opts);
+}
 function normalizeArabicSpaces(s){
   return String(s || "").replace(/\s+/g, " ").trim();
 }
@@ -604,99 +608,84 @@ function askLoveWordForEarly(){
 // ========= DOM Ready =========
 document.addEventListener("DOMContentLoaded", ()=>{
 
-  // audio button
-  const audioBtn = $("audioBtn");
-  if(audioBtn){
-    audioBtn.addEventListener("click", async ()=>{
-      const audio = $("bgm");
-      if(!audio) return;
+  // ✅ audio button (داخل #app)
+  on("audioBtn", "click", async ()=>{
+    const audio = $("bgm");
+    const audioBtn = $("audioBtn");
+    if(!audio || !audioBtn) return;
 
-      try{
-        if(!audioOn){
-          await audio.play();
-          audioOn = true;
-          audioBtn.textContent="⏸️ إيقاف";
-        }else{
-          audio.pause();
-          audioOn = false;
-          audioBtn.textContent="🔊 تشغيل";
-        }
-      }catch(e){
-        openModal({
-          title:"الصوت",
-          text:"المتصفح منع التشغيل… اضغطي تاني.",
-          actions:[{label:"تمام", onClick:closeModal}]
-        });
+    try{
+      if(!audioOn){
+        await audio.play();
+        audioOn = true;
+        audioBtn.textContent="⏸️ إيقاف";
+      }else{
+        audio.pause();
+        audioOn = false;
+        audioBtn.textContent="🔊 تشغيل";
       }
-    });
-  }
-
-  // login
-  const enterBtn = $("enterBtn");
-  if(enterBtn) enterBtn.addEventListener("click", enter);
-
-  const pwInput = $("pw");
-  if(pwInput){
-    pwInput.addEventListener("keydown", (e)=>{
-      if(e.key === "Enter") enter();
-    });
-  }
-
-  // final
-  const openFinalBtn = $("openFinalBtn");
-  if(openFinalBtn){
-    openFinalBtn.addEventListener("click", ()=>{
-      finalPressCount++;
-
-      if(isUnlockedUTC()){
-        if(isBroken) document.body.classList.add("broken");
-        const b = $("finalBox");
-        if(b){
-          b.style.display="block";
-          b.textContent = FINAL_MESSAGE;
-        }
-        return;
-      }
-
-      if(finalPressCount > 2){
-        askLoveWordForEarly();
-        return;
-      }
-
+    }catch(e){
       openModal({
-        title:"لسه بدري ❤️",
-        text:"الرسالة هتتفتح يوم 14/2",
+        title:"الصوت",
+        text:"المتصفح منع التشغيل… اضغطي تاني.",
         actions:[{label:"تمام", onClick:closeModal}]
       });
-    });
-  }
+    }
+  });
 
-  // ramadan
-  const openRamadanBtn = $("openRamadanBtn");
-  if(openRamadanBtn){
-    openRamadanBtn.addEventListener("click", ()=>{
-      if(isRamadanUnlocked()){
-        const b = $("ramadanBox");
-        if(b){
-          b.style.display="block";
-          b.textContent = RAMADAN_MESSAGE;
-        }
-        return;
+  // ✅ login
+  on("enterBtn", "click", enter);
+
+  on("pw", "keydown", (e)=>{
+    if(e.key === "Enter") enter();
+  });
+
+  // ✅ final
+  on("openFinalBtn", "click", ()=>{
+    finalPressCount++;
+
+    if(isUnlockedUTC()){
+      if(isBroken) document.body.classList.add("broken");
+      const b = $("finalBox");
+      if(b){
+        b.style.display="block";
+        b.textContent = FINAL_MESSAGE;
       }
-      openModal({
-        title:"🌙",
-        text:"لسه بدري… دي هتتفتح يوم العيد 😉",
-        actions:[{label:"تمام", onClick:closeModal}]
-      });
-    });
-  }
+      return;
+    }
 
-  // modal close
-  const modalBack = $("modalBack");
-  if(modalBack){
-    modalBack.addEventListener("click", (e)=>{
-      if(e.target.id==="modalBack") closeModal();
+    if(finalPressCount > 2){
+      askLoveWordForEarly();
+      return;
+    }
+
+    openModal({
+      title:"لسه بدري ❤️",
+      text:"الرسالة هتتفتح يوم 14/2",
+      actions:[{label:"تمام", onClick:closeModal}]
     });
-  }
+  });
+
+  // ✅ ramadan
+  on("openRamadanBtn", "click", ()=>{
+    if(isRamadanUnlocked()){
+      const b = $("ramadanBox");
+      if(b){
+        b.style.display="block";
+        b.textContent = RAMADAN_MESSAGE;
+      }
+      return;
+    }
+    openModal({
+      title:"🌙",
+      text:"لسه بدري… دي هتتفتح يوم العيد 😉",
+      actions:[{label:"تمام", onClick:closeModal}]
+    });
+  });
+
+  // ✅ modal close
+  on("modalBack", "click", (e)=>{
+    if(e.target && e.target.id==="modalBack") closeModal();
+  });
 
 });
