@@ -23,9 +23,7 @@ body{
   overflow-y:auto;
 }
 
-body.modal-open{
-  overflow:hidden;
-}
+body.modal-open{ overflow:hidden; }
 
 .wrap{max-width:520px;margin:0 auto;padding:14px 14px 90px}
 .top{
@@ -107,6 +105,7 @@ input{
 }
 .chip span{color:rgba(244,246,255,.70);font-weight:800}
 .grid{display:grid;gap:12px;position:relative;z-index:2}
+
 .msgs{display:grid;gap:10px}
 .msg{
   padding:12px;border-radius:16px;
@@ -136,6 +135,7 @@ input{
               radial-gradient(280px 180px at 90% 85%, rgba(124,77,255,.14), transparent 60%);
   pointer-events:none;
 }
+
 .timeline{display:grid;gap:10px}
 .titem{
   padding:12px;border-radius:16px;
@@ -144,6 +144,7 @@ input{
 }
 .tdate{font-weight:900}
 .small{font-size:12px;color:rgba(244,246,255,.62)}
+
 .lockRow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .status{padding:9px 12px;border-radius:999px;border:1px dashed rgba(255,255,255,.18);font-size:13px;color:rgba(244,246,255,.75)}
 .finalBox{
@@ -169,6 +170,7 @@ input{
   user-select:none;
 }
 
+/* ✅ MODAL */
 .modalBack{
   position:fixed;
   inset:0;
@@ -180,7 +182,6 @@ input{
   padding:18px;
   overscroll-behavior: contain;
 }
-
 .modal{
   width:min(520px,100%);
   max-height: calc(100vh - 36px);
@@ -194,7 +195,6 @@ input{
   box-shadow:0 30px 80px rgba(0,0,0,.55);
   text-align:center;
 }
-
 .modal h3{margin:4px 0 8px}
 .modal p{margin:6px 0 12px}
 .modalActions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
@@ -227,6 +227,83 @@ input{
   height:auto;
   display:block;
 }
+
+/* ===== Engagement Slider (كبير) ===== */
+.slider{
+  position:relative;
+  border-radius:18px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(0,0,0,.18);
+}
+
+.sViewport{
+  width:100%;
+  aspect-ratio: 4 / 3; /* صورة كبيرة */
+  overflow:hidden;
+}
+
+.sTrack{
+  height:100%;
+  display:flex;
+  transition: transform .35s ease;
+  transform: translateX(0);
+}
+
+.sSlide{
+  flex:0 0 100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(255,255,255,.04);
+}
+
+.sSlide img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.sBtn{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:3;
+  width:44px;height:44px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(0,0,0,.35);
+  color:#fff;
+  font-size:26px;
+  line-height:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  backdrop-filter: blur(8px);
+}
+
+.sBtn.prev{left:10px}
+.sBtn.next{right:10px}
+
+.sDots{
+  display:flex;
+  gap:8px;
+  justify-content:center;
+  margin-top:10px;
+  flex-wrap:wrap;
+}
+
+.sDot{
+  width:10px;height:10px;
+  border-radius:999px;
+  border:0;
+  background:rgba(255,255,255,.22);
+  cursor:pointer;
+}
+.sDot.active{ background:rgba(255,255,255,.75); }
 
 /* Broken mode */
 body.broken{

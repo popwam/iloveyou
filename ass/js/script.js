@@ -1,7 +1,7 @@
 // ========= CONFIG =========
 const PERSON_NAME = "رنوشتي";
 
-// ✅ كلمة السر الجديدة (قبول خيارين)
+// ✅ كلمتين سر
 const PASSWORDS = ["بحبك يا ممدوح", "بحبك يا دوو"];
 
 // لو كتبت بحبك/احبك يظهر رد رومانسي
@@ -10,43 +10,61 @@ const LOVE_WORDS = ["بحبك","احبك"];
 // ✅ فتح رسالة الخطوبة (14/2) - وقت موثوق
 const UNLOCK_UTC = Date.UTC(2026, 1, 14, 0, 0, 0);
 
-// ✅ فتح رسالة رمضان في العيد (مصر: غالبًا 20 مارس 2026)
+// ✅ فتح رسالة رمضان في العيد (تقدر تغيره)
 const EID_UNLOCK_UTC = Date.UTC(2026, 2, 20, 0, 0, 0);
 
 // together from 23/1/2026
 const TOGETHER_START = new Date(2026, 0, 23, 0, 0, 0);
 
-const MESSAGES = [
-  "أنا عامل الصفحة دي مخصوص… عشانك ❤️",
-  "كل مرة بتفتحيها… افتكري إنك غالية عندي ✨",
+// ✅ مودين حسب كلمة السر
+const MODE_DOOU = "doou";       // رومانسي
+const MODE_MAMDOUH = "mamdouh"; // رمضاني
+let currentMode = MODE_DOOU;
+
+// ✅ أغاني حسب الوضع (غير الأسماء/المسارات كما تحب)
+const SONG_DOOU = "ass/song/love.mp3";
+const SONG_MAMDOUH = "ass/song/ramadan.mp3";
+
+// ✅ رسائل حسب الوضع
+const MESSAGES_DOOU = [
+  "يا رنوشتي… إنتي حتة مني ❤️",
+  "ضحكتك بتصلّح يومي كله ✨",
   "الخطوبة كانت حلم… وبقت حقيقة 💍",
-  "وفي رمضان… لسه في مفاجأة أكبر مستنياكي 🌙"
+  "تعالي نكمل العمر سوا 🤍"
+];
+
+const MESSAGES_MAMDOUH = [
+  "اللهم اجعل بيننا مودة ورحمة 🤲",
+  "ربنا يتمم لنا على خير ويبارك لنا 🌙",
+  "اللهم ارزقنا السكينة والرضا 💛",
+  "ربنا يحفظك ويجعل أيامنا كلها خير ✨"
 ];
 
 const TIMELINE = [
   { date: "23/1", text: "أول لقاء بينا 💫" },
-
   { date: "12/2", text: "اتفقنا إني هركّبك معايا العربية… وكنت صادق ✨" },
   { date: "12/2", text: "جيتلك نص الليل بهدية… دي كانت حجة بس الحقيقة كنت عاوز أشوفك ❤️" },
-
   { date: "13/2", text: "أول مرة أقولك بحبك مباشرة… وردك خلاني أحس إني بحلم 🥺" },
   { date: "13/2", text: "ركبتي معايا العربية… وأختك من بابا معانا 🚗" },
   { date: "13/2", text: "أختك معايا المنصورة زي ما وعدتك ✅" },
-
   { date: "14/2", text: "لبستك الدبلة في اليمين… كنت فرحان ومكسوف 💍❤️" }
 ];
 
-// ✅ ألبوم الخطوبة — سمّيهم: 1.jpg..137.jpg و 1.mp4..15.mp4
-const ENG_PHOTOS_COUNT = 137;
+// ✅ صور عامة
+const IMAGES = [
+  "ass/img/1.png","ass/img/2.png","ass/img/3.jpeg","ass/img/4.jpeg",
+  "ass/img/5.jpeg","ass/img/6.jpeg","ass/img/7.jpeg"
+];
+
+// ✅ ألبوم الخطوبة (حالياً 66 صورة)
+const ENG_PHOTOS_COUNT = 66;
 const ENG_VIDEOS_COUNT = 15;
 
 const ENG_PHOTOS_DIR = "ass/engagement/photos/";
 const ENG_VIDEOS_DIR = "ass/engagement/videos/";
 
-const IMAGES = [
-  "ass/img/1.png","ass/img/2.png","ass/img/3.jpeg","ass/img/4.jpeg",
-  "ass/img/5.jpeg","ass/img/6.jpeg","ass/img/7.jpeg"
-];
+// امتداد الصور (غيره لـ avif لما تحوّل)
+const ENG_PHOTOS_EXT = "avif";
 
 const FINAL_MESSAGE = `
 يا ${PERSON_NAME} ❤️
@@ -62,10 +80,16 @@ const RAMADAN_MESSAGE = `
 بس دي هتتفتح يوم العيد 😉🎁
 `.trim();
 
+
 // ========= HELPERS =========
 const $ = (id)=>document.getElementById(id);
 const show = (el)=>el.classList.remove("hidden");
 const hide = (el)=>el.classList.add("hidden");
+
+function normalizeArabicSpaces(s){
+  return String(s || "").replace(/\s+/g, " ").trim();
+}
+
 
 // ========= TRUSTED TIME (ANTI DATE-TAMPER) =========
 let trustedOffsetMs = null;
@@ -104,9 +128,11 @@ async function fetchTrustedNow(){
   return false;
 }
 
+
 // ========= UI =========
 function spawnHearts(){
   const box = $("hearts");
+  if(!box) return;
   box.innerHTML = "";
   for(let i=0;i<16;i++){
     const h=document.createElement("div");
@@ -143,18 +169,25 @@ function closeModal(){
   $("modalBack").style.display="none";
 }
 
-function renderMessages(){
-  const wrap=$("msgs"); wrap.innerHTML="";
-  MESSAGES.forEach((t)=>{
-    const d=document.createElement("div");
-    d.className="msg";
-    d.textContent=t;
+function renderMessages(mode){
+  const wrap = $("msgs");
+  if(!wrap) return;
+  wrap.innerHTML = "";
+
+  const list = (mode === MODE_MAMDOUH) ? MESSAGES_MAMDOUH : MESSAGES_DOOU;
+
+  list.forEach((t)=>{
+    const d = document.createElement("div");
+    d.className = "msg";
+    d.textContent = t;
     wrap.appendChild(d);
   });
 }
 
 function renderTimeline(){
-  const t=$("timeline"); t.innerHTML="";
+  const t=$("timeline");
+  if(!t) return;
+  t.innerHTML="";
   TIMELINE.forEach(item=>{
     const d=document.createElement("div");
     d.className="titem";
@@ -173,7 +206,9 @@ function openImageLightbox(src){
 }
 
 function renderGallery(){
-  const g=$("gallery"); g.innerHTML="";
+  const g=$("gallery");
+  if(!g) return;
+  g.innerHTML="";
   IMAGES.forEach(src=>{
     const ph=document.createElement("div");
     ph.className="ph";
@@ -186,51 +221,139 @@ function renderGallery(){
   });
 }
 
-// ========= Engagement Album =========
+
+// ========= Engagement Album (Slider) =========
 function seqList(dir, count, ext){
   const arr = [];
   for(let i=1;i<=count;i++) arr.push(`${dir}${i}.${ext}`);
   return arr;
 }
 
-const ENG_IMAGES = seqList(ENG_PHOTOS_DIR, ENG_PHOTOS_COUNT, "jpg");
+const ENG_IMAGES = seqList(ENG_PHOTOS_DIR, ENG_PHOTOS_COUNT, ENG_PHOTOS_EXT);
 const ENG_VIDEOS = seqList(ENG_VIDEOS_DIR, ENG_VIDEOS_COUNT, "mp4");
 
 function renderEngagementAlbum(){
-  $("engPhotosCount").textContent = ENG_PHOTOS_COUNT;
-  $("engVideosCount").textContent = ENG_VIDEOS_COUNT;
+  const photosCountEl = $("engPhotosCount");
+  const videosCountEl = $("engVideosCount");
+  if(photosCountEl) photosCountEl.textContent = ENG_PHOTOS_COUNT;
+  if(videosCountEl) videosCountEl.textContent = ENG_VIDEOS_COUNT;
 
-  const g=$("engGallery"); g.innerHTML="";
-  ENG_IMAGES.forEach(src=>{
-    const ph=document.createElement("div");
-    ph.className="ph";
-    const img=document.createElement("img");
-    img.src=src; img.alt="engagement"; img.loading="lazy";
-    img.onerror=()=>{ img.remove(); ph.innerHTML="<div style='padding:10px' class='small'>صورة مش موجودة</div>"; };
-    ph.appendChild(img);
-    ph.addEventListener("click", ()=>openImageLightbox(src));
-    g.appendChild(ph);
-  });
+  const track = $("engTrack");
+  const dots = $("engDots");
+  const prevBtn = $("engPrev");
+  const nextBtn = $("engNext");
 
-  const v=$("engVideos"); v.innerHTML="";
-  ENG_VIDEOS.forEach(src=>{
-    const box=document.createElement("div");
-    box.className="vItem";
-    box.innerHTML = `
-      <video controls preload="metadata">
-        <source src="${src}" type="video/mp4">
-      </video>
+  if(!track || !dots || !prevBtn || !nextBtn) return;
+
+  track.innerHTML = "";
+  dots.innerHTML = "";
+
+  // Slides
+  ENG_IMAGES.forEach((src, idx)=>{
+    const slide = document.createElement("div");
+    slide.className = "sSlide";
+    slide.innerHTML = `
+      <img src="${src}" alt="engagement" loading="lazy"
+        onerror="this.outerHTML='<div class=small style=padding:14px>الصورة مش موجودة</div>'" />
     `;
-    v.appendChild(box);
+    slide.addEventListener("click", ()=>openImageLightbox(src));
+    track.appendChild(slide);
+
+    const dot = document.createElement("button");
+    dot.className = "sDot" + (idx===0 ? " active":"");
+    dot.addEventListener("click", ()=>goToSlide(idx));
+    dots.appendChild(dot);
   });
+
+  let currentIndex = 0;
+
+  function updateUI(){
+    // سلايدر طبيعي: 0% ثم -100% ثم -200% ...
+    track.style.transform = `translateX(${-currentIndex * 100}%)`;
+
+    [...dots.children].forEach((d,i)=>{
+      d.classList.toggle("active", i===currentIndex);
+    });
+  }
+
+  function goToSlide(i){
+    currentIndex = Math.max(0, Math.min(ENG_IMAGES.length-1, i));
+    updateUI();
+  }
+
+  prevBtn.onclick = ()=>goToSlide(currentIndex - 1);
+  nextBtn.onclick = ()=>goToSlide(currentIndex + 1);
+
+  // Swipe
+  const viewport = track.parentElement;
+  let startX = 0;
+  let isDown = false;
+
+  viewport.addEventListener("touchstart", (e)=>{
+    isDown = true;
+    startX = e.touches[0].clientX;
+  }, {passive:true});
+
+  viewport.addEventListener("touchend", (e)=>{
+    if(!isDown) return;
+    isDown = false;
+    const endX = e.changedTouches[0].clientX;
+    const dx = endX - startX;
+    if(Math.abs(dx) < 30) return;
+
+    // سحب يمين => السابق، سحب شمال => التالي
+    if(dx > 0) goToSlide(currentIndex - 1);
+    else goToSlide(currentIndex + 1);
+  }, {passive:true});
+
+  updateUI();
+
+  // Videos list
+  const v = $("engVideos");
+  if(v){
+    v.innerHTML="";
+    ENG_VIDEOS.forEach(src=>{
+      const box=document.createElement("div");
+      box.className="vItem";
+      box.innerHTML = `
+        <video controls preload="metadata">
+          <source src="${src}" type="video/mp4">
+        </video>
+      `;
+      v.appendChild(box);
+    });
+  }
 }
 
+
 // ========= Audio =========
-const audio = $("bgm");
-const audioBtn = $("audioBtn");
 let audioOn = false;
 
+function setSongByMode(mode){
+  const audio = $("bgm");
+  if(!audio) return;
+
+  const src = (mode === MODE_MAMDOUH) ? SONG_MAMDOUH : SONG_DOOU;
+
+  const sourceEl = audio.querySelector("source");
+  const currentSrc = sourceEl?.getAttribute("src");
+  if(currentSrc === src) return;
+
+  audio.pause();
+  audioOn = false;
+
+  if(sourceEl) sourceEl.setAttribute("src", src);
+  audio.load();
+
+  const audioBtn = $("audioBtn");
+  if(audioBtn) audioBtn.textContent = "🔊 تشغيل";
+}
+
 async function tryAutoPlay(){
+  const audio = $("bgm");
+  const audioBtn = $("audioBtn");
+  if(!audio || !audioBtn) return false;
+
   try{
     await audio.play();
     audioOn = true;
@@ -243,37 +366,21 @@ async function tryAutoPlay(){
   }
 }
 
-audioBtn.addEventListener("click", async ()=>{
-  try{
-    if(!audioOn){
-      await audio.play(); audioOn=true; audioBtn.textContent="⏸️ إيقاف";
-    }else{
-      audio.pause(); audioOn=false; audioBtn.textContent="🔊 تشغيل";
-    }
-  }catch(e){
-    openModal({title:"الصوت", text:"المتصفح منع التشغيل… اضغطي تاني.", actions:[{label:"تمام", onClick:closeModal}]});
-  }
-});
-
-$("audioTryBtn").addEventListener("click", async ()=>{
-  const ok = await tryAutoPlay();
-  openModal({
-    title: ok ? "اشتغل ❤️" : "لسه مقفول 😅",
-    text: ok ? "تمام… الموسيقى شغالة." : "بعض الموبايلات لازم لمسة بعد الدخول.",
-    actions:[{label:"حاضر", onClick:closeModal}]
-  });
-});
 
 // ========= Counters =========
 function updateTogetherCounter(){
+  const el = $("togetherCounter");
+  if(!el) return;
+
   const now = new Date();
   const diffMs = Math.max(0, now.getTime() - TOGETHER_START.getTime());
   const totalMin = Math.floor(diffMs / 60000);
   const days = Math.floor(totalMin / (60*24));
   const hours = Math.floor((totalMin - days*60*24) / 60);
   const mins = totalMin % 60;
-  $("togetherCounter").textContent = `${days} يوم • ${hours} ساعة • ${mins} دقيقة`;
+  el.textContent = `${days} يوم • ${hours} ساعة • ${mins} دقيقة`;
 }
+
 
 // ========= Locks (Trusted Time) =========
 function isUnlockedUTC(){
@@ -288,10 +395,18 @@ function isRamadanUnlocked(){
 
 function updateLockStatus(){
   const s=$("lockStatus");
+  if(!s) return;
+
+  if(!hasTrustedTime){
+    s.textContent = "🔒 جارِ التحقق من الوقت…";
+    return;
+  }
+
   if(isUnlockedUTC()){
     s.textContent="✅ الرسالة متاحة دلوقتي";
     return;
   }
+
   const diff = UNLOCK_UTC - nowMs();
   const totalMin = Math.max(0, Math.floor(diff/60000));
   const days = Math.floor(totalMin/(60*24));
@@ -302,10 +417,18 @@ function updateLockStatus(){
 
 function updateRamadanStatus(){
   const s=$("ramadanStatus");
+  if(!s) return;
+
+  if(!hasTrustedTime){
+    s.textContent = "🔒 جارِ التحقق من الوقت…";
+    return;
+  }
+
   if(isRamadanUnlocked()){
     s.textContent="✅ الرسالة متاحة دلوقتي";
     return;
   }
+
   const diff = EID_UNLOCK_UTC - nowMs();
   const totalMin = Math.max(0, Math.floor(diff/60000));
   const days = Math.floor(totalMin/(60*24));
@@ -313,6 +436,7 @@ function updateRamadanStatus(){
   const mins = totalMin % 60;
   s.textContent = `🔒 فاضل ${days} يوم ${hours} ساعة ${mins} دقيقة`;
 }
+
 
 // ========= LOGIN LOGIC =========
 let wrongCount = 0;
@@ -331,10 +455,17 @@ function setBrokenMode(){
   document.body.classList.add("broken");
 }
 
-function enter(){
-  const v = $("pw").value.trim();
+function detectModeFromPassword(pw){
+  const v = normalizeArabicSpaces(pw);
+  if(v === "بحبك يا ممدوح") return MODE_MAMDOUH;
+  return MODE_DOOU;
+}
 
-  // ✅ “أنا كمان بحبك…” فقط لو كتبت بحبك/احبك (ومش كلمة السر)
+function enter(){
+  const raw = $("pw")?.value ?? "";
+  const v = normalizeArabicSpaces(raw);
+
+  // ✅ لو كتبت بحبك/احبك (ومش كلمة السر)
   if(LOVE_WORDS.includes(v) && !PASSWORDS.includes(v)){
     wrongCount++;
     openModal({
@@ -348,11 +479,21 @@ function enter(){
 
   // ✅ نجاح
   if(PASSWORDS.includes(v)){
+    currentMode = detectModeFromPassword(v);
+
     hide($("login"));
     show($("app"));
+
     $("heroTitle").textContent = `يا ${PERSON_NAME} ✨`;
+    $("heroSub").textContent = (currentMode === MODE_MAMDOUH)
+      ? "رمضان كريم… وفي مفاجآت مقفولة لحد ميعادها 🌙"
+      : "في هنا شوية كلام… شوية صور… وفي الآخر رسالة ❤️";
+
+    // تشغيل مود الأغاني/الرسائل
+    setSongByMode(currentMode);
+
     spawnHearts();
-    renderMessages();
+    renderMessages(currentMode);
     renderGallery();
     renderEngagementAlbum();
     renderTimeline();
@@ -361,8 +502,10 @@ function enter(){
     // ✅ وقت موثوق قبل القفل
     fetchTrustedNow().then((ok)=>{
       if(!ok){
-        $("lockStatus").textContent = "🔒 مش قادر أتحقق من الوقت (اتصال الإنترنت)… الرسائل المقفولة هتفضل مقفولة";
-        $("ramadanStatus").textContent = "🔒 مش قادر أتحقق من الوقت (اتصال الإنترنت)… الرسائل المقفولة هتفضل مقفولة";
+        const ls = $("lockStatus");
+        const rs = $("ramadanStatus");
+        if(ls) ls.textContent = "🔒 مش قادر أتحقق من الوقت (اتصال الإنترنت)… الرسائل المقفولة هتفضل مقفولة";
+        if(rs) rs.textContent = "🔒 مش قادر أتحقق من الوقت (اتصال الإنترنت)… الرسائل المقفولة هتفضل مقفولة";
       }else{
         updateLockStatus();
         updateRamadanStatus();
@@ -377,9 +520,14 @@ function enter(){
 
     tryAutoPlay().then((ok)=>{
       if(!ok){
-        openModal({title:"🎵", text:"لو الموسيقى مش شغالة اضغطي زر (تشغيل) فوق.", actions:[{label:"تمام", onClick:closeModal}]});
+        openModal({
+          title:"🎵",
+          text:"لو الموسيقى مش شغالة اضغطي زر (تشغيل) فوق.",
+          actions:[{label:"تمام", onClick:closeModal}]
+        });
       }
     });
+
     return;
   }
 
@@ -398,8 +546,6 @@ function enter(){
   }
 }
 
-$("enterBtn").addEventListener("click", enter);
-$("pw").addEventListener("keydown", (e)=>{ if(e.key==="Enter") enter(); });
 
 // ========= 14/2 EARLY REVEAL =========
 let finalPressCount = 0;
@@ -415,6 +561,7 @@ function maskText(text){
 
 function showEarlyReveal(){
   const box = $("earlyReveal");
+  if(!box) return;
   const { head, blocks } = maskText(FINAL_MESSAGE);
   box.style.display = "block";
   box.innerHTML = `
@@ -433,7 +580,7 @@ function askLoveWordForEarly(){
     extraHtml:`<input id="${inputId}" type="password" placeholder="اكتبيها هنا" autocomplete="off"/>`,
     actions:[
       {label:"تأكيد", onClick: ()=>{
-        const v = $(inputId).value.trim();
+        const v = normalizeArabicSpaces($(inputId)?.value ?? "");
         if(LOVE_WORDS.includes(v)){
           closeModal();
           openModal({
@@ -453,31 +600,103 @@ function askLoveWordForEarly(){
   });
 }
 
-$("openFinalBtn").addEventListener("click", ()=>{
-  finalPressCount++;
 
-  if(isUnlockedUTC()){
-    if(isBroken) document.body.classList.add("broken");
-    $("finalBox").style.display="block";
-    $("finalBox").textContent = FINAL_MESSAGE;
-    return;
+// ========= DOM Ready =========
+document.addEventListener("DOMContentLoaded", ()=>{
+
+  // audio button
+  const audioBtn = $("audioBtn");
+  if(audioBtn){
+    audioBtn.addEventListener("click", async ()=>{
+      const audio = $("bgm");
+      if(!audio) return;
+
+      try{
+        if(!audioOn){
+          await audio.play();
+          audioOn = true;
+          audioBtn.textContent="⏸️ إيقاف";
+        }else{
+          audio.pause();
+          audioOn = false;
+          audioBtn.textContent="🔊 تشغيل";
+        }
+      }catch(e){
+        openModal({
+          title:"الصوت",
+          text:"المتصفح منع التشغيل… اضغطي تاني.",
+          actions:[{label:"تمام", onClick:closeModal}]
+        });
+      }
+    });
   }
 
-  if(finalPressCount > 2){
-    askLoveWordForEarly();
-    return;
+  // login
+  const enterBtn = $("enterBtn");
+  if(enterBtn) enterBtn.addEventListener("click", enter);
+
+  const pwInput = $("pw");
+  if(pwInput){
+    pwInput.addEventListener("keydown", (e)=>{
+      if(e.key === "Enter") enter();
+    });
   }
-  openModal({title:"لسه بدري ❤️", text:"الرسالة هتتفتح يوم 14/2", actions:[{label:"تمام", onClick:closeModal}]});
+
+  // final
+  const openFinalBtn = $("openFinalBtn");
+  if(openFinalBtn){
+    openFinalBtn.addEventListener("click", ()=>{
+      finalPressCount++;
+
+      if(isUnlockedUTC()){
+        if(isBroken) document.body.classList.add("broken");
+        const b = $("finalBox");
+        if(b){
+          b.style.display="block";
+          b.textContent = FINAL_MESSAGE;
+        }
+        return;
+      }
+
+      if(finalPressCount > 2){
+        askLoveWordForEarly();
+        return;
+      }
+
+      openModal({
+        title:"لسه بدري ❤️",
+        text:"الرسالة هتتفتح يوم 14/2",
+        actions:[{label:"تمام", onClick:closeModal}]
+      });
+    });
+  }
+
+  // ramadan
+  const openRamadanBtn = $("openRamadanBtn");
+  if(openRamadanBtn){
+    openRamadanBtn.addEventListener("click", ()=>{
+      if(isRamadanUnlocked()){
+        const b = $("ramadanBox");
+        if(b){
+          b.style.display="block";
+          b.textContent = RAMADAN_MESSAGE;
+        }
+        return;
+      }
+      openModal({
+        title:"🌙",
+        text:"لسه بدري… دي هتتفتح يوم العيد 😉",
+        actions:[{label:"تمام", onClick:closeModal}]
+      });
+    });
+  }
+
+  // modal close
+  const modalBack = $("modalBack");
+  if(modalBack){
+    modalBack.addEventListener("click", (e)=>{
+      if(e.target.id==="modalBack") closeModal();
+    });
+  }
+
 });
-
-// ========= Ramadan Lock =========
-$("openRamadanBtn").addEventListener("click", ()=>{
-  if(isRamadanUnlocked()){
-    $("ramadanBox").style.display="block";
-    $("ramadanBox").textContent = RAMADAN_MESSAGE;
-    return;
-  }
-  openModal({title:"🌙", text:"لسه بدري… دي هتتفتح يوم العيد 😉", actions:[{label:"تمام", onClick:closeModal}]});
-});
-
-$("modalBack").addEventListener("click", (e)=>{ if(e.target.id==="modalBack") closeModal(); });

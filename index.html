@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
   <link rel="stylesheet" href="ass/css/style.css">
   <title>🎁 هدية</title>
+
+  <!-- اختياري لإزالة خطأ favicon -->
+  <!-- <link rel="icon" href="ass/img/1.png"> -->
 </head>
 
 <body>
@@ -37,7 +40,7 @@
     <div class="wrap">
       <section class="hero">
         <h2 class="heroTitle" id="heroTitle">يا Rana ✨</h2>
-        <p>في هنا شوية كلام… شوية صور… وفي الآخر رسالة  ❤️</p>
+        <p id="heroSub">في هنا شوية كلام… شوية صور… وفي الآخر رسالة ❤️</p>
 
         <div class="metaRow">
           <div class="chip">⏳ <span>بقالنا:</span> <b id="togetherCounter">—</b></div>
@@ -57,18 +60,30 @@
           <div class="gallery" id="gallery"></div>
         </div>
 
-        <!-- ✅ ألبوم الخطوبة -->
+        <!-- ✅ ألبوم الخطوبة (سلايدر) -->
         <div class="card">
           <h3>💍 ألبوم الخطوبة</h3>
+
           <div class="metaRow" style="margin-top:6px">
             <div class="chip">📸 صور: <b id="engPhotosCount">—</b></div>
             <div class="chip">🎥 فيديو: <b id="engVideosCount">—</b></div>
           </div>
 
-          <p class="small">صور الخطوبة مرتبة هنا. اضغطي على أي صورة للتكبير.</p>
-          <div class="gallery" id="engGallery"></div>
+          <p class="small">اسحبي يمين/شمال أو استخدمي الأسهم ❤️</p>
 
-          <div style="margin-top:10px"></div>
+          <div class="slider" id="engSlider">
+            <button class="sBtn prev" id="engPrev" aria-label="السابق">‹</button>
+
+            <div class="sViewport">
+              <div class="sTrack" id="engTrack"></div>
+            </div>
+
+            <button class="sBtn next" id="engNext" aria-label="التالي">›</button>
+          </div>
+
+          <div class="sDots" id="engDots"></div>
+
+          <div style="margin-top:12px"></div>
           <p class="small">الفيديوهات:</p>
           <div class="vGallery" id="engVideos"></div>
         </div>
@@ -80,7 +95,7 @@
           <div style="margin-top:10px" class="titem">
             <div class="tdate">⏱️ مدة المكالمات</div>
             <div style="margin-top:6px;color:rgba(244,246,255,.85)">
-              57س • 46د  &nbsp;&nbsp;|&nbsp;&nbsp;  24ث
+              57س • 46د  &nbsp;&nbsp;|&nbsp;&nbsp;  3466 د
             </div>
           </div>
         </div>
@@ -111,7 +126,8 @@
     </div>
 
     <audio id="bgm" preload="auto" loop>
-      <source src="ass/song/song.mp3" type="audio/mpeg">
+      <!-- default (هيتغير حسب كلمة السر من JS) -->
+      <source src="ass/song/love.mp3" type="audio/mpeg">
     </audio>
   </div>
 
