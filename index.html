@@ -61,29 +61,22 @@
         </div>
         <div class="card">
           <h3>💍 ألبوم الخطوبة</h3>
-
-          <div class="sSlider">
-            <button class="sNav sPrev" id="engPrev" type="button">‹</button>
-
-            <div class="sViewport" id="engViewport">
-              <div class="sTrack" id="engTrack"></div>
-            </div>
-
-            <button class="sNav sNext" id="engNext" type="button">›</button>
-          </div>
-
-          <div class="sDots" id="engDots"></div>
+          <p class="small">اضغطي على أي صورة أو فيديو علشان يفتح كامل.</p>
 
           <div class="metaRow" style="margin-top:6px">
             <div class="chip">📸 صور: <b id="engPhotosCount">—</b></div>
             <div class="chip">🎥 فيديو: <b id="engVideosCount">—</b></div>
           </div>
 
-          <p class="small">اسحبي يمين/شمال أو استخدمي الأسهم ❤️</p>
+          <!-- صور الألبوم (Thumbnails زي كارت السكرينات) -->
+          <div class="gallery" id="engGallery"></div>
 
-          <p class="small" style="margin-top:12px">الفيديوهات:</p>
-          <div class="vGallery" id="engVideos"></div>
-        </div>
+          <div style="margin-top:12px"></div>
+          <p class="small">الفيديوهات:</p>
+
+          <!-- فيديوهات الألبوم (Thumbnails) -->
+          <div class="vThumbs" id="engVideos"></div>
+        </div>  
         <div class="card">
           <h3>🗓️ تواريخ بتاعتنا</h3>
           <div class="timeline" id="timeline"></div>
