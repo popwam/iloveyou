@@ -314,3 +314,77 @@ body.broken{
 }
 body.broken .pill .dot{background:#ff2b2b;box-shadow:0 0 18px rgba(255,43,43,.7)}
 body.broken .card, body.broken .msg, body.broken .titem{border-color:rgba(255,255,255,.16)}
+/* ===== Engagement Slider ===== */
+.sSlider{
+  position:relative;
+  border-radius:18px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(0,0,0,.14);
+}
+
+.sViewport{
+  width:100%;
+  overflow:hidden;
+  touch-action: pan-y;
+}
+
+.sTrack{
+  display:flex;
+  width:100%;
+  transform: translateX(0%);
+  transition: transform .25s ease;
+}
+
+.sSlide{
+  min-width:100%;
+  aspect-ratio: 4 / 5;   /* عدّلها لو عايز 16/9 */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,.20);
+}
+
+.sSlide img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.sNav{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:2;
+  width:40px;height:40px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(0,0,0,.35);
+  color:#fff;
+  font-size:22px;
+  cursor:pointer;
+}
+
+.sPrev{ left:10px; }
+.sNext{ right:10px; }
+
+.sDots{
+  display:flex;
+  gap:8px;
+  justify-content:center;
+  padding:10px 0 0;
+  flex-wrap:wrap;
+}
+
+.sDot{
+  width:10px;height:10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.10);
+  cursor:pointer;
+}
+
+.sDot.active{
+  background:rgba(255,255,255,.70);
+}
