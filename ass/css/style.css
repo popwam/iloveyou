@@ -381,3 +381,21 @@ body.ramadan .hearts { /* نفس الكونتينر */
   backdrop-filter: blur(8px);
   font-weight:900;
 }
+/* نجوم رمضان */
+.star{
+  position:absolute;
+  bottom:-40px;
+  width:6px;height:6px;
+  border-radius:50%;
+  background:rgba(255,214,107,.95);
+  box-shadow:0 0 14px rgba(255,214,107,.45);
+  opacity:.22;
+  animation:floatUp linear infinite;
+}
+.star::after{
+  content:"";
+  position:absolute;
+  inset:-3px;
+  border-radius:50%;
+  border:1px solid rgba(255,214,107,.25);
+}

@@ -155,21 +155,52 @@ function getMediaLists() {
 }
 
 // ========= UI background =========
-function spawnHearts() {
+function spawnHearts(){
   const box = $("hearts");
-  if (!box) return;
+  if(!box) return;
+
   box.innerHTML = "";
-  for (let i = 0; i < 16; i++) {
-    const h = document.createElement("div");
-    h.className = "heart";
-    h.style.left = Math.random() * 100 + "vw";
-    h.style.animationDuration = 6 + Math.random() * 9 + "s";
-    h.style.animationDelay = Math.random() * 5 + "s";
-    h.style.opacity = (0.08 + Math.random() * 0.16).toFixed(2);
+
+  const isRamadan = document.body.classList.contains("ramadan");
+
+  if(isRamadan){
+    // 🌙 هلالات
+    for(let i=0;i<12;i++){
+      const m = document.createElement("div");
+      m.className = "moon";
+      m.style.left = (Math.random()*100)+"vw";
+      m.style.animationDuration = (7+Math.random()*10)+"s";
+      m.style.animationDelay = (Math.random()*4)+"s";
+      m.style.opacity = (0.12+Math.random()*0.16).toFixed(2);
+      m.style.transform = `translateY(0) rotate(${(Math.random()*30-15).toFixed(0)}deg)`;
+      box.appendChild(m);
+    }
+
+    // ⭐ نجوم
+    for(let i=0;i<22;i++){
+      const s = document.createElement("div");
+      s.className = "star";
+      s.style.left = (Math.random()*100)+"vw";
+      s.style.animationDuration = (6+Math.random()*9)+"s";
+      s.style.animationDelay = (Math.random()*5)+"s";
+      s.style.opacity = (0.10+Math.random()*0.22).toFixed(2);
+      box.appendChild(s);
+    }
+
+    return;
+  }
+
+  // ❤️ قلوب (الوضع العادي)
+  for(let i=0;i<16;i++){
+    const h=document.createElement("div");
+    h.className="heart";
+    h.style.left = (Math.random()*100)+"vw";
+    h.style.animationDuration = (6+Math.random()*9)+"s";
+    h.style.animationDelay = (Math.random()*5)+"s";
+    h.style.opacity = (0.08+Math.random()*0.16).toFixed(2);
     box.appendChild(h);
   }
 }
-
 // ========= MODAL =========
 function openModal({ title, text, extraHtml = "", actions = [] }) {
   $("mTitle").textContent = title || "";
@@ -431,6 +462,7 @@ function enter() {
 
     setSongByMode(currentMode);
 
+    document.body.classList.toggle("ramadan", currentMode === MODE_MAMDOUH);
     spawnHearts();
     renderMessages(currentMode);
 
