@@ -228,8 +228,8 @@ input{
   display:block;
 }
 
-/* ===== Engagement Slider (كبير) ===== */
-.slider{
+/* ===== Engagement Slider (BIG - single source) ===== */
+.sSlider{
   position:relative;
   border-radius:18px;
   overflow:hidden;
@@ -237,20 +237,21 @@ input{
   background:rgba(0,0,0,.18);
 }
 
-.sViewport{
+.sSlider .sViewport{
   width:100%;
-  aspect-ratio: 4 / 3; /* صورة كبيرة */
+  aspect-ratio: 4 / 3;   /* نفس شكل الاسكرين (كبيرة) */
   overflow:hidden;
+  touch-action: pan-y;
 }
 
-.sTrack{
+.sSlider .sTrack{
   height:100%;
   display:flex;
   transition: transform .35s ease;
   transform: translateX(0);
 }
 
-.sSlide{
+.sSlider .sSlide{
   flex:0 0 100%;
   height:100%;
   display:flex;
@@ -259,14 +260,14 @@ input{
   background:rgba(255,255,255,.04);
 }
 
-.sSlide img{
+.sSlider .sSlide img{
   width:100%;
   height:100%;
   object-fit:cover;
   display:block;
 }
 
-.sBtn{
+.sNav{
   position:absolute;
   top:50%;
   transform:translateY(-50%);
@@ -284,9 +285,8 @@ input{
   cursor:pointer;
   backdrop-filter: blur(8px);
 }
-
-.sBtn.prev{left:10px}
-.sBtn.next{right:10px}
+.sPrev{left:10px}
+.sNext{right:10px}
 
 .sDots{
   display:flex;
@@ -294,6 +294,7 @@ input{
   justify-content:center;
   margin-top:10px;
   flex-wrap:wrap;
+  padding:0;
 }
 
 .sDot{
@@ -304,87 +305,40 @@ input{
   cursor:pointer;
 }
 .sDot.active{ background:rgba(255,255,255,.75); }
+/* ===== Ramadan Mode: moons instead of hearts ===== */
+body.ramadan .dot{ background:#ffd66b; box-shadow:0 0 18px rgba(255,214,107,.55); }
 
-/* Broken mode */
-body.broken{
-  --bg:#05060b;
-  --a:#ff2b2b;
-  --b:#6d6d6d;
-  filter:saturate(.65);
-}
-body.broken .pill .dot{background:#ff2b2b;box-shadow:0 0 18px rgba(255,43,43,.7)}
-body.broken .card, body.broken .msg, body.broken .titem{border-color:rgba(255,255,255,.16)}
-/* ===== Engagement Slider ===== */
-.sSlider{
-  position:relative;
-  border-radius:18px;
-  overflow:hidden;
-  border:1px solid rgba(255,255,255,.10);
-  background:rgba(0,0,0,.14);
+body.ramadan .hearts { /* نفس الكونتينر */
+  position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:1;
 }
 
-.sViewport{
-  width:100%;
-  overflow:hidden;
-  touch-action: pan-y;
+/* القلب زي ما هو */
+.heart{
+  position:absolute;bottom:-40px;width:14px;height:14px;
+  transform:rotate(45deg);background:var(--a);opacity:.14;
+  animation:floatUp linear infinite;
 }
+.heart:before,.heart:after{content:"";position:absolute;width:14px;height:14px;border-radius:50%;background:var(--a)}
+.heart:before{left:-7px;top:0}
+.heart:after{left:0;top:-7px}
 
-.sTrack{
-  display:flex;
-  width:100%;
-  transform: translateX(0%);
-  transition: transform .25s ease;
-}
-
-.sSlide{
-  min-width:100%;
-  aspect-ratio: 4 / 5;   /* عدّلها لو عايز 16/9 */
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:rgba(0,0,0,.20);
-}
-
-.sSlide img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-}
-
-.sNav{
+/* الهلال */
+.moon{
   position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  z-index:2;
-  width:40px;height:40px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.18);
-  background:rgba(0,0,0,.35);
-  color:#fff;
-  font-size:22px;
-  cursor:pointer;
+  bottom:-50px;
+  width:18px;height:18px;
+  border-radius:50%;
+  background:rgba(255,214,107,.18);
+  box-shadow:
+    inset -6px 0 0 rgba(255,214,107,.80),
+    0 0 18px rgba(255,214,107,.25);
+  animation:floatUp linear infinite;
 }
-
-.sPrev{ left:10px; }
-.sNext{ right:10px; }
-
-.sDots{
-  display:flex;
-  gap:8px;
-  justify-content:center;
-  padding:10px 0 0;
-  flex-wrap:wrap;
-}
-
-.sDot{
-  width:10px;height:10px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.22);
-  background:rgba(255,255,255,.10);
-  cursor:pointer;
-}
-
-.sDot.active{
-  background:rgba(255,255,255,.70);
+.moon::after{
+  content:"";
+  position:absolute;
+  inset:3px;
+  border-radius:50%;
+  background:rgba(7,10,18,.88); /* نفس لون الخلفية تقريباً */
+  transform:translateX(4px);
 }
