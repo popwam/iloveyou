@@ -341,29 +341,36 @@ function getMessagesByMode(mode) {
   if (mode === MODE_EID) return MESSAGES_EID;
   return MESSAGES_DOOU;
 }
-
+function shuffleArray(list) {
+  const arr = [...list];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
 function renderMessages(mode) {
   const wrap = $("msgs");
   if (!wrap) return;
 
   wrap.innerHTML = "";
 
-  const list = getMessagesByMode(mode);
+  let list = getMessagesByMode(mode);
+
+  // في وضع ممدوح والعيد نخلي الرسائل متلغبطة/عشوائية شوية
+  if (mode === MODE_MAMDOUH || mode === MODE_EID) {
+    list = shuffleArray(list);
+  }
 
   list.forEach((text, index) => {
     const item = document.createElement("article");
     item.className = "msgCard";
     item.innerHTML = `
-      <div class="msgHead">
-        <span class="msgIndex">${String(index + 1).padStart(2, "0")}</span>
-        <span class="msgBadge">${mode === MODE_MAMDOUH ? "دعوة" : mode === MODE_EID ? "عيد" : "رسالة"}</span>
-      </div>
       <div class="msgBody">${text}</div>
     `;
     wrap.appendChild(item);
   });
 }
-
 function renderTimeline() {
   const t = $("timeline");
   if (!t) return;
@@ -597,25 +604,30 @@ function applyModeSections(mode) {
   const eidBtn = $("openEidBtn");
   const finalBtn = $("openFinalBtn");
 
-  // default all visible
-  show(engagementCard);
-  show(galleryCard);
-  show(ramadanBtn);
-  show(eidBtn);
-  show(finalBtn);
-
+  // reset
+  if (engagementCard) engagementCard.style.display = "";
+  if (galleryCard) galleryCard.style.display = "";
+  if (ramadanBtn) ramadanBtn.style.display = "";
+  if (eidBtn) eidBtn.style.display = "";
+  if (finalBtn) finalBtn.style.display = "";
+  applyModeTheme(mode);
+  applyHeroContent(mode);
+  applyModeSections(mode);
+  spawnParticles();
   if (mode === MODE_MAMDOUH) {
-    hide(engagementCard); // بدون صور/فيديوهات الخطوبة
-    hide(eidBtn);
+    // إخفاء ألبوم الخطوبة بالكامل
+    if (engagementCard) engagementCard.style.display = "none";
+
+    // لو عاوز كمان تخفي الصور العامة في الوضع الرمضاني فكّ التعليق عن السطر الجاي
+    // if (galleryCard) galleryCard.style.display = "none";
+
+    if (eidBtn) eidBtn.style.display = "none";
   }
 
   if (mode === MODE_EID) {
-    show(galleryCard);
-    show(eidBtn);
-    hide(ramadanBtn);
+    if (ramadanBtn) ramadanBtn.style.display = "none";
   }
 }
-
 function applyHeroContent(mode) {
   const title = $("heroTitle");
   const sub = $("heroSub");
