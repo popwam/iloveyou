@@ -5,20 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
   <link rel="stylesheet" href="ass/css/style.css">
   <title>🎁 هدية</title>
-
-  <!-- اختياري لإزالة خطأ favicon -->
-  <!-- <link rel="icon" href="ass/img/1.png"> -->
 </head>
 
 <body>
   <div class="hearts" id="hearts"></div>
 
   <main class="center" id="login">
-    <section class="card" style="width:min(520px,100%)">
-      <h1>🎁 هدية صغيرة</h1>
-      <p>اكتبي كلمة السر… وأنا هفتحلك المفاجأة 😌</p>
+    <section class="card loginCard">
+      <div class="loginBadge">❤️ هدية مخصوص</div>
+      <h1>يا رنوشتي ✨</h1>
+      <p>اكتبي كلمة السر… وأنا هفتحلك كل الذكريات والرسائل 😌</p>
 
-      <div style="margin:10px 0 12px">
+      <div style="margin:12px 0 14px">
         <input id="pw" type="password" placeholder="كلمة السر" autocomplete="off"/>
       </div>
 
@@ -32,90 +30,123 @@
   <div id="app" class="hidden">
     <div class="top">
       <div class="bar">
-        <div class="pill"><span class="dot"></span> مفاجأة ❤️</div>
+        <div class="pill">
+          <span class="dot"></span>
+          مفاجأة ليكي ❤️
+        </div>
         <button class="btn secondary" id="audioBtn">🔊 تشغيل</button>
       </div>
     </div>
 
     <div class="wrap">
       <section class="hero">
-        <h2 class="heroTitle" id="heroTitle">يا Rana ✨</h2>
-        <p id="heroSub">في هنا شوية كلام… شوية صور… وفي الآخر رسالة ❤️</p>
+        <div class="heroGlow"></div>
 
-        <div class="metaRow">
-          <div class="chip">⏳ <span>بقالنا:</span> <b id="togetherCounter">—</b></div>
-          <div class="chip">🗓️ <span>من:</span> 23/1</div>
+        <div class="heroText">
+          <div class="heroMini">For My Favorite Person</div>
+          <h2 class="heroTitle" id="heroTitle">يا Rana ✨</h2>
+          <p id="heroSub">في هنا شوية كلام… شوية صور… وفي الآخر رسالة ❤️</p>
         </div>
+
+        <div class="heroStats">
+          <div class="statCard largeStat">
+            <div class="statLabel">⏳ بقالنا سوا</div>
+            <div class="statValue mono" id="togetherCounter">0Y 0M 0D 00:00:00</div>
+          </div>
+
+          <div class="statCard">
+            <div class="statLabel">🗓️ البداية</div>
+            <div class="statValue">23/1/2026</div>
+          </div>
+
+          <div class="statCard">
+            <div class="statLabel">💍 المناسبة</div>
+            <div class="statValue">ذكرياتنا الجميلة</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="actionsGrid">
+        <button class="actionCard" id="openFinalBtn" type="button">
+          <span class="actionIcon">🎀</span>
+          <span class="actionTitle">رسالة خاصة</span>
+          <span class="actionSub">رسالة من قلبي ليكي</span>
+        </button>
+
+        <button class="actionCard" id="openRamadanBtn" type="button">
+          <span class="actionIcon">🌙</span>
+          <span class="actionTitle">رسالة رمضان</span>
+          <span class="actionSub">دعوة وكلام جميل ليكي</span>
+        </button>
+
+        <button class="actionCard" id="openEidBtn" type="button">
+          <span class="actionIcon">🎉</span>
+          <span class="actionTitle">رسالة العيد</span>
+          <span class="actionSub">كل سنة وإنتِ عيدي</span>
+        </button>
       </section>
 
       <section class="grid">
         <div class="card">
-          <h3>💬 رسايل</h3>
+          <div class="sectionHead">
+            <div>
+              <h3>💬 رسايل</h3>
+              <p class="small">كلام قصير من القلب ليكي.</p>
+            </div>
+          </div>
           <div class="msgs" id="msgs"></div>
         </div>
 
         <div class="card">
-          <h3>📸 سكرينات / صور</h3>
-          <p class="small">اضغطي على أي صورة علشان تتفتح كاملة.</p>
-          <div class="gallery" id="gallery"></div>
-        </div>
-        <div class="card">
-          <h3>💍 ألبوم الخطوبة</h3>
-          <p class="small">اضغطي على أي صورة أو فيديو علشان يفتح كامل.</p>
-
-          <div class="metaRow" style="margin-top:6px">
-            <div class="chip">📸 صور: <b id="engPhotosCount">—</b></div>
-            <div class="chip">🎥 فيديو: <b id="engVideosCount">—</b></div>
-          </div>
-
-          <!-- صور الألبوم (Thumbnails زي كارت السكرينات) -->
-          <div class="gallery" id="engGallery"></div>
-
-          <div style="margin-top:12px"></div>
-          <p class="small">الفيديوهات:</p>
-
-          <!-- فيديوهات الألبوم (Thumbnails) -->
-          <div class="vThumbs" id="engVideos"></div>
-        </div>  
-        <div class="card">
-          <h3>🗓️ تواريخ بتاعتنا</h3>
-          <div class="timeline" id="timeline"></div>
-
-          <div style="margin-top:10px" class="titem">
-            <div class="tdate">⏱️ مدة المكالمات</div>
-            <div style="margin-top:6px;color:rgba(244,246,255,.85)">
-              57س • 46د  &nbsp;&nbsp;|&nbsp;&nbsp;  3466 د
+          <div class="sectionHead">
+            <div>
+              <h3>📸 الصور</h3>
+              <p class="small">ظاهر 5 صور فقط، وآخر كارت بيفتح الألبوم كامل.</p>
             </div>
           </div>
+          <div class="gallery" id="gallery"></div>
         </div>
 
         <div class="card">
-          <h3>🔒 رسالة 14/2</h3>
-          <div class="lockRow">
-            <button class="btn" id="openFinalBtn">🎀 افتحي الرسالة</button>
-            <span class="status" id="lockStatus">جارِ التحقق…</span>
+          <div class="sectionHead">
+            <div>
+              <h3>💍 ألبوم الخطوبة</h3>
+              <p class="small">الصور والفيديوهات الأجمل عندنا.</p>
+            </div>
+            <div class="metaRow">
+              <div class="chip">📸 صور: <b id="engPhotosCount">—</b></div>
+              <div class="chip">🎥 فيديوهات: <b id="engVideosCount">—</b></div>
+            </div>
           </div>
-          <div class="finalBox" id="finalBox"></div>
-          <div class="mask" id="earlyReveal"></div>
+
+          <div class="subTitle">الصور</div>
+          <div class="gallery" id="engGallery"></div>
+
+          <div class="subTitle" style="margin-top:16px">الفيديوهات</div>
+          <div class="vThumbs" id="engVideos"></div>
         </div>
 
-        <!-- ✅ رسالة رمضان -->
         <div class="card">
-          <h3>🌙 رسالة رمضان (مقفولة لحد العيد)</h3>
-          <div class="lockRow">
-            <button class="btn" id="openRamadanBtn">🎁 افتحي الرسالة</button>
-            <span class="status" id="ramadanStatus">جارِ التحقق…</span>
+          <div class="sectionHead">
+            <div>
+              <h3>🗓️ تواريخنا</h3>
+              <p class="small">أحداث صغيرة بس قيمتها كبيرة عندي.</p>
+            </div>
           </div>
-          <div class="finalBox" id="ramadanBox"></div>
-        </div>
 
+          <div class="timeline" id="timeline"></div>
+
+          <div class="timelineSummary">
+            <div class="summaryLabel">⏱️ مدة المكالمات</div>
+            <div class="summaryValue">57س • 46د &nbsp;|&nbsp; 3466 دقيقة</div>
+          </div>
+        </div>
       </section>
 
-      <p class="small" style="text-align:center;margin:18px 0 0">Made with ❤️</p>
+      <p class="footerNote">Made with ❤️ by Doou</p>
     </div>
 
     <audio id="bgm" preload="auto" loop>
-      <!-- default (هيتغير حسب كلمة السر من JS) -->
       <source src="ass/song/love.mp3" type="audio/mpeg">
     </audio>
   </div>
@@ -130,6 +161,7 @@
     </div>
   </div>
 
-<script src="ass/js/media.js"></script>
-<script src="ass/js/script.js"></script></body>
+  <script src="ass/js/media.js"></script>
+  <script src="ass/js/script.js"></script>
+</body>
 </html>

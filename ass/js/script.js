@@ -1,64 +1,71 @@
 // ========= CONFIG =========
 const PERSON_NAME = "رنوشتي";
-const PASSWORDS = ["I Love Rana","i love rana"];
-const LOVE_WORDS = ["بحبك", "احبك"];
-
-const UNLOCK_UTC = Date.UTC(2026, 1, 14, 0, 0, 0);
-const EID_UNLOCK_UTC = Date.UTC(2026, 2, 20, 0, 0, 0);
-
-const TOGETHER_START = new Date(2026, 0, 23, 0, 0, 0);
 
 const MODE_DOOU = "doou";
 const MODE_MAMDOUH = "mamdouh";
+
+const PASSWORD_MAP = {
+  "بحبك يا دوو": MODE_DOOU,
+  "بحبك يا ممدوح": MODE_MAMDOUH,
+  "انت عمري": MODE_DOOU,
+};
+
 let currentMode = MODE_DOOU;
+
+const TOGETHER_START = new Date(2026, 0, 23, 0, 0, 0);
 
 const SONG_DOOU = "ass/song/rana.mp3";
 const SONG_MAMDOUH = "ass/song/rana.m4a";
 
+const LOVE_WORDS = ["بحبك", "احبك", "بحبك يا دوو", "بحبك يا ممدوح", "انت عمري"];
+
 const MESSAGES_DOOU = [
-"يا رنوشتي… لو زعلتك يوم فده آخر حاجة كنت أتمنى أعملها، لأن زعلك بيوجع قلبي قبلك ❤️",
-"والله ما بقدر أشوفك زعلانة مني… بحس إن الدنيا كلها مخاصماني معاكي 🤍",
-"أنا عارف إني غلطت… بس اللي أعرفه أكتر إني بحبك ومش مستحمل البعد بينا ✨",
-"إنتي مش بس خطيبتي… إنتي راحتي، وزعلك بيخليني حاسس إني ضايعت الأمان بتاعي 🫶",
-"لو الكلام اللي حصل زعلك، سامحيني… أنا قلبي عمره ما يقصد يوجع قلبك 🌸",
-"أنا بحبك بجد يا رنا… وأي حاجة تزعل بينا أنا أول واحد يصلّحها 💍",
-"اللحظات الحلوة اللي بينا أكبر من أي زعل… وتعالي نرجع نضحك تاني 🤍",
-"إنتي أغلى عندي من أي كبرياء… ولو كلمة آسف هتريح قلبك فأنا بقولها من قلبي ❤️",
-"أنا مستني بس كلمة منك ترجعلي ابتسامتك… لأنها أغلى حاجة عندي ✨",
-"تعالي ننسى الزعل ده… ونرجع إحنا، أنا ورنوشتي اللي بحبها 🤍"
+  "يا رنوشتي… لو زعلتك يوم فده آخر حاجة كنت أتمنى أعملها، لأن زعلك بيوجع قلبي قبلك ❤️",
+  "والله ما بقدر أشوفك زعلانة مني… بحس إن الدنيا كلها مخاصماني معاكي 🤍",
+  "أنا عارف إني غلطت… بس اللي أعرفه أكتر إني بحبك ومش مستحمل البعد بينا ✨",
+  "إنتي مش بس خطيبتي… إنتي راحتي، وزعلك بيخليني حاسس إني ضايعت الأمان بتاعي 🫶",
+  "لو الكلام اللي حصل زعلك، سامحيني… أنا قلبي عمره ما يقصد يوجع قلبك 🌸",
+  "أنا بحبك بجد يا رنا… وأي حاجة تزعل بينا أنا أول واحد يصلّحها 💍",
+  "اللحظات الحلوة اللي بينا أكبر من أي زعل… وتعالي نرجع نضحك تاني 🤍",
+  "إنتي أغلى عندي من أي كبرياء… ولو كلمة آسف هتريح قلبك فأنا بقولها من قلبي ❤️",
+  "أنا مستني بس كلمة منك ترجعلي ابتسامتك… لأنها أغلى حاجة عندي ✨",
+  "تعالي ننسى الزعل ده… ونرجع إحنا، أنا ورنوشتي اللي بحبها 🤍"
 ];
 
 const MESSAGES_MAMDOUH = [
-"اللهم اجعل بيننا مودة ورحمة، ولا تجعل بين قلوبنا زعلًا أو بُعدًا 🤲",
-"ربنا يتمم لنا على خير ويجمع قلوبنا دائمًا على الحب والرضا 🌙",
-"اللهم ارزقنا السكينة مع بعض، واهدِ قلوبنا لما فيه الخير 💛",
-"اللهم احفظها لي، وقرّب بين قلوبنا مهما حصل 🤍",
-"ربنا يكتب لنا الخير حيث كان، ويجمعنا على الفرح بعد كل زعل 🤲",
-"اللهم اجعل بيتنا يومًا ما مليئًا بالحب والرحمة والطمأنينة 🕌",
-"يا رب اكتب لنا فرحة العيد مع بعض، وقرب كل المسافات بينا 🤍"
+  "اللهم اجعل بيننا مودة ورحمة، ولا تجعل بين قلوبنا زعلًا أو بُعدًا 🤲",
+  "ربنا يتمم لنا على خير ويجمع قلوبنا دائمًا على الحب والرضا 🌙",
+  "اللهم ارزقنا السكينة مع بعض، واهدِ قلوبنا لما فيه الخير 💛",
+  "اللهم احفظها لي، وقرّب بين قلوبنا مهما حصل 🤍",
+  "ربنا يكتب لنا الخير حيث كان، ويجمعنا على الفرح بعد كل زعل 🤲",
+  "اللهم اجعل بيتنا يومًا ما مليئًا بالحب والرحمة والطمأنينة 🕌",
+  "يا رب اكتب لنا فرحة العيد مع بعض، وقرب كل المسافات بينا 🤍"
 ];
 
-const TIMELINE = 
-[
-  { date: "23/1", text: "أول لقاء بينا 💫" },
-  { date: "12/2", text: "اتفقنا إني هركّبك معايا العربية… وكنت صادق ✨" },
-  { date: "12/2", text: "جيتلك نص الليل بهدية… دي كانت حجة بس الحقيقة كنت عاوز أشوفك ❤️" },
-  { date: "13/2", text: "أول مرة أقولك بحبك مباشرة… وردك خلاني أحس إني بحلم 🥺" },
-  { date: "13/2", text: "ركبتي معايا العربية… وأختك من بابا معانا 🚗" },
-  { date: "13/2", text: "أختك معايا المنصورة زي ما وعدتك ✅" },
-  { date: "14/2", text: "لبستك الدبلة في اليمين… كنت فرحان ومكسوف 💍❤️" },
-
-  { date: "19/2", text: "بداية أول رمضان مع بعض… وكان إحساس مختلف 🌙" },
-  { date: "20/2", text: "أول مرة أصلي في نفس المسجد معاكي… وكنت مرتبك شوية 🕌" },
-  { date: "27/2", text: "صلينا مع بعض… وكانت لحظة جميلة وهادية 🤲" },
-  { date: "27/2", text: "كنتي مرتبكة وإحنا بناكل… وأنا كنت نفسي آكل من إيدك 🥺" },
-  { date: "8/3", text: "أول مرة أسمعك بتعيطي… ومكنتش عارف أعمل إيه، بس بجد أنا آسف وبحبك ❤️" }
+const TIMELINE = [
+  { date: "23/1/2026", text: "أول لقاء بينا 💫" },
+  { date: "12/2/2026", text: "اتفقنا إني هركّبك معايا العربية… وكنت صادق ✨" },
+  { date: "12/2/2026", text: "جيتلك نص الليل بهدية… دي كانت حجة بس الحقيقة كنت عاوز أشوفك ❤️" },
+  { date: "13/2/2026", text: "أول مرة أقولك بحبك مباشرة… وردك خلاني أحس إني بحلم 🥺" },
+  { date: "13/2/2026", text: "ركبتي معايا العربية… وأختك من بابا معانا 🚗" },
+  { date: "13/2/2026", text: "أختك معايا المنصورة زي ما وعدتك ✅" },
+  { date: "14/2/2026", text: "لبستك الدبلة في اليمين… كنت فرحان ومكسوف 💍❤️" },
+  { date: "19/2/2026", text: "بداية أول رمضان مع بعض… وكان إحساس مختلف 🌙" },
+  { date: "20/2/2026", text: "أول مرة أصلي في نفس المسجد معاكي… وكنت مرتبك شوية 🕌" },
+  { date: "27/2/2026", text: "صلينا مع بعض… وكانت لحظة جميلة وهادية 🤲" },
+  { date: "27/2/2026", text: "كنتي مرتبكة وإحنا بناكل… وأنا كنت نفسي آكل من إيدك 🥺" },
+  { date: "8/3/2026", text: "أول مرة أسمعك بتعيطي… ومكنتش عارف أعمل إيه، بس بجد أنا آسف وبحبك ❤️" }
 ];
 
 // ✅ fallback لو نسيت media.js
 const IMAGES_FALLBACK = [
-  "ass/img/1.png","ass/img/2.png","ass/img/3.jpeg","ass/img/4.jpeg",
-  "ass/img/5.jpeg","ass/img/6.jpeg","ass/img/7.jpeg"
+  "ass/img/1.png",
+  "ass/img/2.png",
+  "ass/img/3.jpeg",
+  "ass/img/4.jpeg",
+  "ass/img/5.jpeg",
+  "ass/img/6.jpeg",
+  "ass/img/7.jpeg"
 ];
 
 const FINAL_MESSAGE = `
@@ -81,12 +88,11 @@ const FINAL_MESSAGE = `
 كل سنة وإنتي حبيبتي،
 وكل سنة وإنتي أقرب حد لقلبي،
 وكل سنة وإنتي النعمة اللي بدعي ربنا تفضل معايا طول العمر.
-
-(دي رسالة 14/2 ✨)`.trim();
+`.trim();
 
 const RAMADAN_MESSAGE = `
 يا ${PERSON_NAME} 🌙🤍
-رمضان كريم يا رنوشتي… 🌙
+رمضان كريم يا رنوشتي…
 
 ربنا يجعل أيامك كلها نور وراحة،
 ويملأ قلبك بالسكينة والفرح.
@@ -94,72 +100,41 @@ const RAMADAN_MESSAGE = `
 كل رمضان بيعدي وأنا بدعي إن ربنا يديمك في حياتي،
 ويكتب لنا الخير سوا في كل خطوة.
 
-يمكن الكلام بسيط،
-لكن الحقيقة إن وجودك في حياتي أجمل حاجة حصلتلي.
+وجودك في حياتي نعمة كبيرة،
+وبدعيلك دايمًا بالسعادة وراحة البال.
 
-خليكي فاكرة دايمًا إن في حد بيدعي لكِ في كل وقت،
-وبيفرح بفرحتك،
-وبيتمنى يشوف ابتسامتك دايمًا.
+رمضانك جميل،
+وقلبك أجمل،
+وربنا يديمك في حياتي يا أحلى هدية 🤍
+`.trim();
 
-استنيني في العيد…
-عندي كلام كتير نفسي أقولهولك،
-كلام يفرّح قلبك ويخلي عيونك تلمع من الفرحة 🎁
+const EID_MESSAGE = `
+يا ${PERSON_NAME} 🎉❤️
+كل عيد وإنتِ أقرب إنسانة لقلبي.
 
-رمضان كريم يا حبيبتي 🤍`.trim();
+العيد بيبقى أجمل لما يكون فيه ضحكتك،
+ولما أفكر إنك بقيتي جزء من كل فرحة بتمنّاها.
 
-const EID_SECRET_WORD = "انت عيدي";
+ربنا يديمك نعمة،
+ويكتب لنا أعياد كتير جاية مع بعض،
+في حب وراحة وفرحة ما تخلصش.
+
+وكل سنة وإنتِ عيدي الحقيقي 🤍
+`.trim();
 
 // ========= HELPERS =========
 const $ = (id) => document.getElementById(id);
 const show = (el) => el && el.classList.remove("hidden");
 const hide = (el) => el && el.classList.add("hidden");
+
 function on(id, event, handler, opts) {
   const el = $(id);
   if (!el) return;
   el.addEventListener(event, handler, opts);
 }
+
 function normalizeArabicSpaces(s) {
   return String(s || "").replace(/\s+/g, " ").trim();
-}
-
-// ========= TRUSTED TIME =========
-let trustedOffsetMs = null;
-let hasTrustedTime = false;
-
-function nowMs() {
-  return trustedOffsetMs === null ? Date.now() : Date.now() + trustedOffsetMs;
-}
-
-async function fetchTrustedNow() {
-  const sources = [
-    "https://worldtimeapi.org/api/ip",
-    "https://timeapi.io/api/Time/current/zone?timeZone=Africa/Cairo",
-  ];
-
-  for (const url of sources) {
-    try {
-      const res = await fetch(url, { cache: "no-store" });
-      if (!res.ok) continue;
-      const data = await res.json();
-
-      const serverMs =
-        typeof data.unixtime === "number"
-          ? data.unixtime * 1000
-          : data.dateTime
-          ? Date.parse(data.dateTime)
-          : NaN;
-
-      if (Number.isFinite(serverMs)) {
-        trustedOffsetMs = serverMs - Date.now();
-        hasTrustedTime = true;
-        return true;
-      }
-    } catch (e) {}
-  }
-
-  trustedOffsetMs = null;
-  hasTrustedTime = false;
-  return false;
 }
 
 // ========= MEDIA (from media.js) =========
@@ -175,7 +150,6 @@ function getMediaLists() {
       ? m.images.map((x) => x.url).filter(Boolean)
       : [];
 
-    // خد بس اللي ok=true
     const engVideos = Array.isArray(m.videos)
       ? m.videos.filter(v => v && v.ok !== false).map((x) => x.url).filter(Boolean)
       : [];
@@ -195,66 +169,65 @@ function getMediaLists() {
 }
 
 // ========= UI background =========
-function spawnHearts(){
+function spawnHearts() {
   const box = $("hearts");
-  if(!box) return;
+  if (!box) return;
 
   box.innerHTML = "";
 
   const isRamadan = document.body.classList.contains("ramadan");
 
-  if(isRamadan){
-    // 🌙 هلالات
-    for(let i=0;i<12;i++){
+  if (isRamadan) {
+    for (let i = 0; i < 12; i++) {
       const m = document.createElement("div");
       m.className = "moon";
-      m.style.left = (Math.random()*100)+"vw";
-      m.style.animationDuration = (7+Math.random()*10)+"s";
-      m.style.animationDelay = (Math.random()*4)+"s";
-      m.style.opacity = (0.12+Math.random()*0.16).toFixed(2);
-      m.style.transform = `translateY(0) rotate(${(Math.random()*30-15).toFixed(0)}deg)`;
+      m.style.left = (Math.random() * 100) + "vw";
+      m.style.animationDuration = (7 + Math.random() * 10) + "s";
+      m.style.animationDelay = (Math.random() * 4) + "s";
+      m.style.opacity = (0.12 + Math.random() * 0.16).toFixed(2);
+      m.style.transform = `translateY(0) rotate(${(Math.random() * 30 - 15).toFixed(0)}deg)`;
       box.appendChild(m);
     }
 
-    // ⭐ نجوم
-    for(let i=0;i<22;i++){
+    for (let i = 0; i < 20; i++) {
       const s = document.createElement("div");
       s.className = "star";
-      s.style.left = (Math.random()*100)+"vw";
-      s.style.animationDuration = (6+Math.random()*9)+"s";
-      s.style.animationDelay = (Math.random()*5)+"s";
-      s.style.opacity = (0.10+Math.random()*0.22).toFixed(2);
+      s.style.left = (Math.random() * 100) + "vw";
+      s.style.animationDuration = (6 + Math.random() * 9) + "s";
+      s.style.animationDelay = (Math.random() * 5) + "s";
+      s.style.opacity = (0.10 + Math.random() * 0.22).toFixed(2);
       box.appendChild(s);
     }
 
     return;
   }
 
-  // ❤️ قلوب (الوضع العادي)
-  for(let i=0;i<16;i++){
-    const h=document.createElement("div");
-    h.className="heart";
-    h.style.left = (Math.random()*100)+"vw";
-    h.style.animationDuration = (6+Math.random()*9)+"s";
-    h.style.animationDelay = (Math.random()*5)+"s";
-    h.style.opacity = (0.08+Math.random()*0.16).toFixed(2);
+  for (let i = 0; i < 16; i++) {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.style.left = (Math.random() * 100) + "vw";
+    h.style.animationDuration = (6 + Math.random() * 9) + "s";
+    h.style.animationDelay = (Math.random() * 5) + "s";
+    h.style.opacity = (0.08 + Math.random() * 0.16).toFixed(2);
     box.appendChild(h);
   }
 }
+
 // ========= MODAL =========
 function openModal({ title, text, extraHtml = "", actions = [] }) {
   $("mTitle").textContent = title || "";
   $("mText").innerHTML = text || "";
   $("mExtra").innerHTML = extraHtml || "";
 
-  const a = $("mActions");
-  a.innerHTML = "";
+  const actionsWrap = $("mActions");
+  actionsWrap.innerHTML = "";
+
   actions.forEach((btn) => {
     const b = document.createElement("button");
     b.className = "btn" + (btn.secondary ? " secondary" : "");
     b.textContent = btn.label;
     b.onclick = () => btn.onClick();
-    a.appendChild(b);
+    actionsWrap.appendChild(b);
   });
 
   document.body.classList.add("modal-open");
@@ -268,110 +241,212 @@ function closeModal() {
 
 function openImageLightbox(src) {
   openModal({
-    title: "📸",
-    text: "اضغطي برا الصورة علشان تقفلي.",
-    extraHtml: `<div class="lightImg">
-      <img src="${src}" alt="memory"
-        onerror="this.parentElement.innerHTML='<div style=&quot;padding:12px&quot; class=&quot;small&quot;>الصورة مش موجودة</div>'">
-    </div>`,
+    title: "📸 صورة",
+    text: "",
+    extraHtml: `
+      <div class="lightImg">
+        <img src="${src}" alt="memory"
+          onerror="this.parentElement.innerHTML='<div style=&quot;padding:12px&quot; class=&quot;small&quot;>الصورة مش موجودة</div>'">
+      </div>
+    `,
     actions: [{ label: "إغلاق", secondary: true, onClick: closeModal }],
   });
 }
 
 function openVideoLightbox(src) {
   openModal({
-    title: "🎥",
-    text: "اضغطي برا الفيديو علشان تقفلي.",
-    extraHtml: `<div class="lightImg">
-      <video controls autoplay playsinline style="width:100%;height:auto;display:block;background:rgba(0,0,0,.25)">
-        <source src="${src}" type="video/mp4">
-      </video>
-    </div>`,
+    title: "🎥 فيديو",
+    text: "",
+    extraHtml: `
+      <div class="lightImg">
+        <video controls autoplay playsinline style="width:100%;height:auto;display:block;background:rgba(0,0,0,.25)">
+          <source src="${src}" type="video/mp4">
+        </video>
+      </div>
+    `,
     actions: [{ label: "إغلاق", secondary: true, onClick: closeModal }],
   });
 }
+
+function openImagesGalleryModal(title, images) {
+  const html = `
+    <div class="allGrid">
+      ${images.map((src) => `
+        <button class="allItem" type="button" onclick="window.__openImageFromGallery('${src.replace(/'/g, "\\'")}')">
+          <img src="${src}" alt="memory">
+        </button>
+      `).join("")}
+    </div>
+  `;
+
+  openModal({
+    title,
+    text: "كل الصور",
+    extraHtml: html,
+    actions: [{ label: "إغلاق", secondary: true, onClick: closeModal }],
+  });
+}
+
+function openVideosGalleryModal(title, videos) {
+  const html = `
+    <div class="allGrid">
+      ${videos.map((src) => `
+        <button class="allItem videoItem" type="button" onclick="window.__openVideoFromGallery('${src.replace(/'/g, "\\'")}')">
+          <video muted playsinline preload="metadata">
+            <source src="${src}" type="video/mp4">
+          </video>
+          <span class="playBadge">▶</span>
+        </button>
+      `).join("")}
+    </div>
+  `;
+
+  openModal({
+    title,
+    text: "كل الفيديوهات",
+    extraHtml: html,
+    actions: [{ label: "إغلاق", secondary: true, onClick: closeModal }],
+  });
+}
+
+window.__openImageFromGallery = function (src) {
+  openImageLightbox(src);
+};
+
+window.__openVideoFromGallery = function (src) {
+  openVideoLightbox(src);
+};
 
 // ========= RENDERERS =========
 function renderMessages(mode) {
   const wrap = $("msgs");
   if (!wrap) return;
+
   wrap.innerHTML = "";
 
   const list = mode === MODE_MAMDOUH ? MESSAGES_MAMDOUH : MESSAGES_DOOU;
 
-  list.forEach((t) => {
-    const d = document.createElement("div");
-    d.className = "msg";
-    d.textContent = t;
-    wrap.appendChild(d);
+  list.forEach((text, index) => {
+    const item = document.createElement("article");
+    item.className = "msgCard";
+    item.innerHTML = `
+      <div class="msgHead">
+        <span class="msgIndex">${String(index + 1).padStart(2, "0")}</span>
+        <span class="msgBadge">رسالة</span>
+      </div>
+      <div class="msgBody">${text}</div>
+    `;
+    wrap.appendChild(item);
   });
 }
 
 function renderTimeline() {
   const t = $("timeline");
   if (!t) return;
+
   t.innerHTML = "";
-  TIMELINE.forEach((item) => {
+
+  TIMELINE.forEach((item, index) => {
     const d = document.createElement("div");
-    d.className = "titem";
-    d.innerHTML = `<div class="tdate">${item.date}</div>
-      <div style="margin-top:6px;color:rgba(244,246,255,.85)">${item.text}</div>`;
+    d.className = "timelineItem";
+    d.innerHTML = `
+      <div class="timelineLine"></div>
+      <div class="timelineDot">${index + 1}</div>
+      <div class="timelineCard">
+        <div class="timelineDate">${item.date}</div>
+        <div class="timelineText">${item.text}</div>
+      </div>
+    `;
     t.appendChild(d);
   });
 }
 
-function renderGallery(id, images) {
+function renderPreviewGallery(id, images, title) {
   const g = $(id);
   if (!g) return;
+
   g.innerHTML = "";
-  images.forEach((src) => {
-    const ph = document.createElement("div");
+
+  const preview = images.slice(0, 5);
+
+  preview.forEach((src) => {
+    const ph = document.createElement("button");
+    ph.type = "button";
     ph.className = "ph";
-    const img = document.createElement("img");
-    img.src = src;
-    img.alt = "memory";
-    img.loading = "lazy";
-    img.onerror = () => {
-      img.remove();
-      ph.innerHTML = "<div style='padding:10px' class='small'>الصورة مش موجودة</div>";
-    };
-    ph.appendChild(img);
+    ph.innerHTML = `<img src="${src}" alt="memory" loading="lazy">`;
     ph.addEventListener("click", () => openImageLightbox(src));
     g.appendChild(ph);
   });
+
+  if (images.length > 5) {
+    const more = document.createElement("button");
+    more.type = "button";
+    more.className = "ph moreCard";
+    more.innerHTML = `
+      <div class="moreInner">
+        <div class="moreCount">+${images.length - 5}</div>
+        <div class="moreText">عرض كل الصور</div>
+      </div>
+    `;
+    more.addEventListener("click", () => openImagesGalleryModal(title, images));
+    g.appendChild(more);
+  }
 }
 
-function renderEngagement(engImages, engVideos) {
-  const photosCountEl = $("engPhotosCount");
-  const videosCountEl = $("engVideosCount");
-  if (photosCountEl) photosCountEl.textContent = engImages.length;
-  if (videosCountEl) videosCountEl.textContent = engVideos.length;
-
-  renderGallery("engGallery", engImages);
-
-  const vWrap = $("engVideos");
+function renderPreviewVideos(id, videos, title) {
+  const vWrap = $(id);
   if (!vWrap) return;
+
   vWrap.innerHTML = "";
 
-  engVideos.forEach((src) => {
-    const box = document.createElement("div");
+  const preview = videos.slice(0, 5);
+
+  preview.forEach((src) => {
+    const box = document.createElement("button");
+    box.type = "button";
     box.className = "vThumb";
     box.innerHTML = `
       <video muted playsinline preload="metadata">
         <source src="${src}" type="video/mp4">
       </video>
+      <span class="playBadge">▶</span>
     `;
 
     const vid = box.querySelector("video");
     if (vid) {
       vid.addEventListener("loadeddata", () => {
-        try { vid.currentTime = 0.2; } catch (e) {}
+        try { vid.currentTime = 0.2; } catch (_) {}
       });
     }
 
     box.addEventListener("click", () => openVideoLightbox(src));
     vWrap.appendChild(box);
   });
+
+  if (videos.length > 5) {
+    const more = document.createElement("button");
+    more.type = "button";
+    more.className = "vThumb moreCard";
+    more.innerHTML = `
+      <div class="moreInner">
+        <div class="moreCount">+${videos.length - 5}</div>
+        <div class="moreText">عرض كل الفيديوهات</div>
+      </div>
+    `;
+    more.addEventListener("click", () => openVideosGalleryModal(title, videos));
+    vWrap.appendChild(more);
+  }
+}
+
+function renderEngagement(engImages, engVideos) {
+  const photosCountEl = $("engPhotosCount");
+  const videosCountEl = $("engVideosCount");
+
+  if (photosCountEl) photosCountEl.textContent = engImages.length;
+  if (videosCountEl) videosCountEl.textContent = engVideos.length;
+
+  renderPreviewGallery("engGallery", engImages, "💍 كل صور الخطوبة");
+  renderPreviewVideos("engVideos", engVideos, "🎥 كل فيديوهات الخطوبة");
 }
 
 // ========= Audio =========
@@ -384,6 +459,7 @@ function setSongByMode(mode) {
   const src = mode === MODE_MAMDOUH ? SONG_MAMDOUH : SONG_DOOU;
   const sourceEl = audio.querySelector("source");
   const currentSrc = sourceEl?.getAttribute("src");
+
   if (currentSrc === src) return;
 
   audio.pause();
@@ -406,195 +482,154 @@ async function tryAutoPlay() {
     audioOn = true;
     audioBtn.textContent = "⏸️ إيقاف";
     return true;
-  } catch (e) {
+  } catch (_) {
     audioOn = false;
     audioBtn.textContent = "🔊 تشغيل";
     return false;
   }
 }
 
-// ========= Counters =========
+// ========= Counter Y/M/D HH:mm:ss =========
+function diffYMDHMS(start, end) {
+  let from = new Date(start);
+  let years = 0;
+  let months = 0;
+
+  while (true) {
+    const next = new Date(from);
+    next.setFullYear(next.getFullYear() + 1);
+    if (next <= end) {
+      years++;
+      from = next;
+    } else {
+      break;
+    }
+  }
+
+  while (true) {
+    const next = new Date(from);
+    next.setMonth(next.getMonth() + 1);
+    if (next <= end) {
+      months++;
+      from = next;
+    } else {
+      break;
+    }
+  }
+
+  let diffMs = Math.max(0, end.getTime() - from.getTime());
+
+  const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  diffMs -= days * 1000 * 60 * 60 * 24;
+
+  const hours = Math.floor(diffMs / (1000 * 60 * 60));
+  diffMs -= hours * 1000 * 60 * 60;
+
+  const minutes = Math.floor(diffMs / (1000 * 60));
+  diffMs -= minutes * 1000 * 60;
+
+  const seconds = Math.floor(diffMs / 1000);
+
+  return { years, months, days, hours, minutes, seconds };
+}
+
+function pad2(n) {
+  return String(n).padStart(2, "0");
+}
+
 function updateTogetherCounter() {
   const el = $("togetherCounter");
   if (!el) return;
 
   const now = new Date();
-  const diffMs = Math.max(0, now.getTime() - TOGETHER_START.getTime());
-  const totalMin = Math.floor(diffMs / 60000);
-  const days = Math.floor(totalMin / (60 * 24));
-  const hours = Math.floor((totalMin - days * 60 * 24) / 60);
-  const mins = totalMin % 60;
-  el.textContent = `${days} يوم • ${hours} ساعة • ${mins} دقيقة`;
-}
+  const d = diffYMDHMS(TOGETHER_START, now);
 
-// ========= Locks =========
-function isUnlockedUTC() {
-  return true; // 14/2 مفتوحة دايمًا
-}
-
-function isEidUnlocked() {
-  if (!hasTrustedTime) return false;
-  return nowMs() >= EID_UNLOCK_UTC;
-}
-
-function updateLockStatus() {
-  const s = $("lockStatus");
-  if (!s) return;
-  s.textContent = "✅ الرسالة متاحة دلوقتي";
-}
-
-function updateRamadanStatus() {
-  const s = $("ramadanStatus");
-  if (!s) return;
-
-  if (!hasTrustedTime) {
-    s.textContent = "🔒 جارِ التحقق من الوقت…";
-    return;
-  }
-
-  if (isEidUnlocked()) {
-    s.textContent = "✅ الرسالة متاحة دلوقتي";
-    return;
-  }
-
-  const diff = EID_UNLOCK_UTC - nowMs();
-  const totalMin = Math.max(0, Math.floor(diff / 60000));
-  const days = Math.floor(totalMin / (60 * 24));
-  const hours = Math.floor((totalMin - days * 24 * 60) / 60);
-  const mins = totalMin % 60;
-  s.textContent = `🔒 فاضل ${days} يوم ${hours} ساعة ${mins} دقيقة`;
+  el.textContent =
+    `${d.years}Y ${d.months}M ${d.days}D ${pad2(d.hours)}:${pad2(d.minutes)}:${pad2(d.seconds)}`;
 }
 
 // ========= LOGIN =========
-let wrongCount = 0;
-
 function detectModeFromPassword(pw) {
   const v = normalizeArabicSpaces(pw);
-  if (v === "I Love Rana") return MODE_MAMDOUH;
-  return MODE_DOOU;
+  return PASSWORD_MAP[v] || null;
 }
 
 function enter() {
   const raw = $("pw")?.value ?? "";
   const v = normalizeArabicSpaces(raw);
 
-  if (LOVE_WORDS.includes(v) && !PASSWORDS.includes(v)) {
-    wrongCount++;
+  const mode = detectModeFromPassword(v);
+
+  if (!mode) {
+    if (LOVE_WORDS.includes(v)) {
+      openModal({
+        title: "🙈",
+        text: "الكلمة دي جميلة جدًا… بس مش كلمة السر المطلوبة 😌",
+        actions: [{ label: "تمام", onClick: closeModal }],
+      });
+      return;
+    }
+
     openModal({
       title: "🙈",
-      text: "أنا كمان بحبك… بس كلمة السر غلط 😌",
-      actions: [{ label: "أوكي", onClick: closeModal }],
+      text: "كلمة السر غلط 😅 جربي تاني",
+      actions: [{ label: "تمام", onClick: closeModal }],
     });
     return;
   }
 
-  if (PASSWORDS.includes(v)) {
-    currentMode = detectModeFromPassword(v);
+  currentMode = mode;
 
-    hide($("login"));
-    show($("app"));
+  hide($("login"));
+  show($("app"));
 
-    $("heroTitle").textContent = `يا ${PERSON_NAME} ✨`;
-    $("heroSub").textContent =
-      currentMode === MODE_MAMDOUH
-        ? "رمضان كريم… وفي مفاجآت مقفولة لحد ميعادها 🌙"
-        : "في هنا شوية كلام… شوية صور… وفي الآخر رسالة ❤️";
+  $("heroTitle").textContent = `يا ${PERSON_NAME} ✨`;
+  $("heroSub").textContent =
+    currentMode === MODE_MAMDOUH
+      ? "هنا شوية دعوات وكلام من القلب… وشوية ذكريات جميلة 🌙"
+      : "هنا شوية كلام… وشوية صور… ورسائل مخصوص ليكي ❤️";
 
-    setSongByMode(currentMode);
+  document.body.classList.toggle("ramadan", currentMode === MODE_MAMDOUH);
+  spawnHearts();
+  renderMessages(currentMode);
+  renderTimeline();
+  updateTogetherCounter();
 
-    document.body.classList.toggle("ramadan", currentMode === MODE_MAMDOUH);
-    spawnHearts();
-    renderMessages(currentMode);
+  const media = getMediaLists();
+  renderPreviewGallery("gallery", media.generalImages, "📸 كل الصور");
+  renderEngagement(media.engImages, media.engVideos);
 
-    const media = getMediaLists();
-    renderGallery("gallery", media.generalImages);
-    renderEngagement(media.engImages, media.engVideos);
+  setSongByMode(currentMode);
+  tryAutoPlay();
 
-    renderTimeline();
-    updateTogetherCounter();
+  setInterval(updateTogetherCounter, 1000);
+}
 
-    // ✅ رسالة 14/2 ظاهرة مباشرة
-    const fb = $("finalBox");
-    if (fb) {
-      fb.style.display = "block";
-      fb.textContent = FINAL_MESSAGE;
-    }
-    updateLockStatus();
-
-    fetchTrustedNow().then((ok) => {
-      if (!ok) {
-        const rs = $("ramadanStatus");
-        if (rs) rs.textContent = "🔒 مش قادر أتحقق من الوقت (النت)… الرسالة هتفضل مقفولة";
-      } else {
-        updateRamadanStatus();
-      }
-    });
-
-    setInterval(updateTogetherCounter, 30000);
-    setInterval(updateRamadanStatus, 30000);
-
-    tryAutoPlay();
-    return;
-  }
-
-  wrongCount++;
+// ========= MESSAGE OPENERS =========
+function openLoveMessage() {
   openModal({
-    title: "🙈",
-    text: "كلمة السر غلط 😅 جربي تاني",
-    actions: [{ label: "تمام", onClick: closeModal }],
+    title: "🎀 رسالة خاصة",
+    text: "",
+    extraHtml: `<div class="messageSheet">${FINAL_MESSAGE.replace(/\n/g, "<br>")}</div>`,
+    actions: [{ label: "إغلاق", secondary: true, onClick: closeModal }],
   });
 }
 
-// ========= “انت عيدي” بعد 3 ضغطات =========
-let ramadanPressCount = 0;
-
-function maskText(text) {
-  const n = Math.max(18, Math.floor(text.length * 0.35));
-  const head = text.slice(0, n).trim();
-  const tail = text.slice(n).trim();
-  const blocks = tail.replace(/[^\n]/g, "█");
-  return { head, blocks };
-}
-
-function showEidTeaser() {
-  const box = $("ramadanBox");
-  if (!box) return;
-
-  const { head, blocks } = maskText(RAMADAN_MESSAGE);
-  box.style.display = "block";
-  box.innerHTML = `
-    <div style="font-weight:900;margin-bottom:8px;color:rgba(244,246,255,.92)">جزء من الرسالة 🌙</div>
-    <div>${head}</div>
-    <div class="blur" style="margin-top:10px">${blocks}</div>
-    <div class="small" style="margin-top:10px">الباقي يتفتح يوم العيد 😉</div>
-  `;
-}
-
-function askEidSecretWord() {
-  const inputId = "eidInput";
+function openRamadanMessage() {
   openModal({
-    title: "🎁 لو مستعجلة 😄",
-    text: "اكتبي كلمة… هتفتحلك جزء من رسالة العيد 😉",
-    extraHtml: `<input id="${inputId}" type="password" placeholder="اكتبيها هنا" autocomplete="off"/>`,
-    actions: [
-      {
-        label: "تأكيد",
-        onClick: () => {
-          const v = normalizeArabicSpaces($(inputId)?.value ?? "");
-          if (v === EID_SECRET_WORD) {
-            closeModal();
-            showEidTeaser();
-          } else {
-            openModal({
-              title: "🙈",
-              text: "مش هي دي 😅",
-              actions: [{ label: "إغلاق", secondary: true, onClick: closeModal }],
-            });
-          }
-        },
-      },
-      { label: "إغلاق", secondary: true, onClick: closeModal },
-    ],
+    title: "🌙 رسالة رمضان",
+    text: "",
+    extraHtml: `<div class="messageSheet">${RAMADAN_MESSAGE.replace(/\n/g, "<br>")}</div>`,
+    actions: [{ label: "إغلاق", secondary: true, onClick: closeModal }],
+  });
+}
+
+function openEidMessage() {
+  openModal({
+    title: "🎉 رسالة العيد",
+    text: "",
+    extraHtml: `<div class="messageSheet">${EID_MESSAGE.replace(/\n/g, "<br>")}</div>`,
+    actions: [{ label: "إغلاق", secondary: true, onClick: closeModal }],
   });
 }
 
@@ -615,10 +650,10 @@ document.addEventListener("DOMContentLoaded", () => {
         audioOn = false;
         audioBtn.textContent = "🔊 تشغيل";
       }
-    } catch (e) {
+    } catch (_) {
       openModal({
         title: "الصوت",
-        text: "المتصفح منع التشغيل… اضغطي تاني.",
+        text: "المتصفح منع التشغيل التلقائي… اضغطي مرة كمان.",
         actions: [{ label: "تمام", onClick: closeModal }],
       });
     }
@@ -629,32 +664,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.key === "Enter") enter();
   });
 
-  // زر رسالة العيد
-  on("openRamadanBtn", "click", () => {
-    if (isEidUnlocked()) {
-      const b = $("ramadanBox");
-      if (b) {
-        b.style.display = "block";
-        b.textContent = RAMADAN_MESSAGE;
-      }
-      return;
-    }
-
-    ramadanPressCount++;
-
-    if (ramadanPressCount < 3) {
-      openModal({
-        title: "🌙",
-        text: "لسه بدري… دي هتتفتح يوم العيد 😉",
-        actions: [{ label: "تمام", onClick: closeModal }],
-      });
-      return;
-    }
-
-    askEidSecretWord();
-  });
+  on("openFinalBtn", "click", openLoveMessage);
+  on("openRamadanBtn", "click", openRamadanMessage);
+  on("openEidBtn", "click", openEidMessage);
 
   on("modalBack", "click", (e) => {
     if (e.target && e.target.id === "modalBack") closeModal();
   });
+
+  spawnHearts();
 });
