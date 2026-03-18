@@ -15,9 +15,10 @@ let currentMode = MODE_DOOU;
 
 const TOGETHER_START = new Date(2026, 0, 23, 0, 0, 0);
 
-const SONG_DOOU = "ass/song/rana.mp3";
-const SONG_MAMDOUH = "ass/song/rana.m4a";
-const SONG_EID = "ass/song/rana.mp3";
+// ✅ ملفات الموسيقى الجديدة
+const SONG_DOOU = "ass/song/doo.mp3";
+const SONG_MAMDOUH = "ass/song/mmdouh.mp3";
+const SONG_EID = "ass/song/eid.mp3";
 
 const MESSAGES_DOOU = [
   "يا رنوشتي… لو زعلتك يوم فده آخر حاجة كنت أتمنى أعملها، لأن زعلك بيوجع قلبي قبلك ❤️",
@@ -33,13 +34,16 @@ const MESSAGES_DOOU = [
 ];
 
 const MESSAGES_MAMDOUH = [
-  "اللهم اجعل بيننا مودة ورحمة، ولا تجعل بين قلوبنا زعلًا أو بُعدًا 🤲",
-  "ربنا يتمم لنا على خير ويجمع قلوبنا دائمًا على الحب والرضا 🌙",
-  "اللهم ارزقنا السكينة مع بعض، واهدِ قلوبنا لما فيه الخير 💛",
-  "اللهم احفظها لي، وقرّب بين قلوبنا مهما حصل 🤍",
-  "ربنا يكتب لنا الخير حيث كان، ويجمعنا على الفرح بعد كل زعل 🤲",
-  "اللهم اجعل بيتنا يومًا ما مليئًا بالحب والرحمة والطمأنينة 🕌",
-  "يا رب اكتب لنا فرحة العيد مع بعض، وقرب كل المسافات بينا 🤍"
+  "رمضانك معايا ليه طعم تاني… كأن الدعوة في آخر اليوم اسمها إنتِ 🤍",
+  "كل ما أسمع أذان المغرب… قلبي يفتكرك قبل أي حاجة 🌙",
+  "في ليالي رمضان… أكتر حاجة بتمنى ربنا يديمهالي هي إنتِ ✨",
+  "وجودك في حياتي مريح بطريقة تخلي قلبي يدعي لكِ من غير ما أفكر 🤲",
+  "إنتِ أجمل حاجة هادية دخلت قلبي من غير ضجة 💛",
+  "في الزحمة، في اليوم، في التعب… مجرد وجودك بيفرق معايا جدًا 🤍",
+  "أنا بحب فيكي الطمأنينة… بحب الإحساس اللي بيخليني أهدى لما تكوني موجودة 🌙",
+  "رمضان بيعدي… لكن أثر كلامك في قلبي بيفضل 💫",
+  "مش كل القرب بيتقاس بالمسافة… أوقات وجودك في قلبي يكفيني جدًا 🤍",
+  "ربنا يديم ضحكتك ليا… لأنها من الحاجات اللي بتطمن قلبي فعلًا 🕌"
 ];
 
 const MESSAGES_EID = [
@@ -49,7 +53,10 @@ const MESSAGES_EID = [
   "كل ضحكة منك في العيد بتساوي الدنيا كلها ✨",
   "نفسي كل أعيادي الجاية تكون وإنتِ فيها ومعايا 🫶",
   "العيد مش زينة بس… العيد إنتِ 🌙",
-  "كل سنة وإنتِ أقرب حد لقلبي 💞"
+  "كل سنة وإنتِ أقرب حد لقلبي 💞",
+  "العيد بيعدي بسرعة… لكن إحساسك في قلبي بيفضل ❤️",
+  "كل فرحة في العيد ناقصها حاجة لو إنتِ مش فيها 🤍",
+  "نفسي أول تهنئة وأجمل تهنئة وكل العيد يبقى بيني وبينك ✨"
 ];
 
 const TIMELINE = [
@@ -144,6 +151,15 @@ function on(id, event, handler, opts) {
 
 function normalizeArabicSpaces(s) {
   return String(s || "").replace(/\s+/g, " ").trim();
+}
+
+function shuffleArray(list) {
+  const arr = [...list];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
 }
 
 // ========= MEDIA =========
@@ -341,14 +357,7 @@ function getMessagesByMode(mode) {
   if (mode === MODE_EID) return MESSAGES_EID;
   return MESSAGES_DOOU;
 }
-function shuffleArray(list) {
-  const arr = [...list];
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
+
 function renderMessages(mode) {
   const wrap = $("msgs");
   if (!wrap) return;
@@ -357,20 +366,18 @@ function renderMessages(mode) {
 
   let list = getMessagesByMode(mode);
 
-  // في وضع ممدوح والعيد نخلي الرسائل متلغبطة/عشوائية شوية
   if (mode === MODE_MAMDOUH || mode === MODE_EID) {
     list = shuffleArray(list);
   }
 
-  list.forEach((text, index) => {
+  list.forEach((text) => {
     const item = document.createElement("article");
-    item.className = "msgCard";
-    item.innerHTML = `
-      <div class="msgBody">${text}</div>
-    `;
+    item.className = "msgCard" + (mode === MODE_EID ? " eidMsg" : "");
+    item.innerHTML = `<div class="msgBody">${text}</div>`;
     wrap.appendChild(item);
   });
 }
+
 function renderTimeline() {
   const t = $("timeline");
   if (!t) return;
@@ -502,7 +509,10 @@ function setSongByMode(mode) {
   audio.pause();
   audioOn = false;
 
-  if (sourceEl) sourceEl.setAttribute("src", src);
+  if (sourceEl) {
+    sourceEl.setAttribute("src", src);
+  }
+
   audio.load();
 
   const audioBtn = $("audioBtn");
@@ -597,37 +607,6 @@ function applyModeTheme(mode) {
   );
 }
 
-function applyModeSections(mode) {
-  const engagementCard = $("engagementCard");
-  const galleryCard = $("galleryCard");
-  const ramadanBtn = $("openRamadanBtn");
-  const eidBtn = $("openEidBtn");
-  const finalBtn = $("openFinalBtn");
-
-  // reset
-  if (engagementCard) engagementCard.style.display = "";
-  if (galleryCard) galleryCard.style.display = "";
-  if (ramadanBtn) ramadanBtn.style.display = "";
-  if (eidBtn) eidBtn.style.display = "";
-  if (finalBtn) finalBtn.style.display = "";
-  applyModeTheme(mode);
-  applyHeroContent(mode);
-  applyModeSections(mode);
-  spawnParticles();
-  if (mode === MODE_MAMDOUH) {
-    // إخفاء ألبوم الخطوبة بالكامل
-    if (engagementCard) engagementCard.style.display = "none";
-
-    // لو عاوز كمان تخفي الصور العامة في الوضع الرمضاني فكّ التعليق عن السطر الجاي
-    // if (galleryCard) galleryCard.style.display = "none";
-
-    if (eidBtn) eidBtn.style.display = "none";
-  }
-
-  if (mode === MODE_EID) {
-    if (ramadanBtn) ramadanBtn.style.display = "none";
-  }
-}
 function applyHeroContent(mode) {
   const title = $("heroTitle");
   const sub = $("heroSub");
@@ -639,18 +618,41 @@ function applyHeroContent(mode) {
 
   if (mode === MODE_MAMDOUH) {
     heroMode.textContent = "🌙 Ramadan Mode";
-    sub.textContent = "وضع رمضاني هادي… دعوات، كلام جميل، وذكريات مناسبة للشهر الكريم.";
+    sub.textContent = "وضع رمضاني هادي… كلام رومانسي ناعم، دعوات، وجو مريح.";
     return;
   }
 
   if (mode === MODE_EID) {
     heroMode.textContent = "🎉 Eid Mode";
-    sub.textContent = "وضع العيد… فرحة، رسالة عيد، وجو ألطف ومبهج أكتر.";
+    sub.textContent = "وضع العيد… فرحة، كلام جميل، ورسالة عيد مخصوص ليكي.";
     return;
   }
 
   heroMode.textContent = "❤️ Doou Mode";
   sub.textContent = "كل الصور والرسائل والذكريات الجميلة موجودة هنا ليكي.";
+}
+
+function applyModeSections(mode) {
+  const engagementCard = $("engagementCard");
+  const galleryCard = $("galleryCard");
+  const ramadanBtn = $("openRamadanBtn");
+  const eidBtn = $("openEidBtn");
+  const finalBtn = $("openFinalBtn");
+
+  if (engagementCard) engagementCard.style.display = "";
+  if (galleryCard) galleryCard.style.display = "";
+  if (ramadanBtn) ramadanBtn.style.display = "";
+  if (eidBtn) eidBtn.style.display = "";
+  if (finalBtn) finalBtn.style.display = "";
+
+  if (mode === MODE_MAMDOUH) {
+    if (engagementCard) engagementCard.style.display = "none";
+    if (eidBtn) eidBtn.style.display = "none";
+  }
+
+  if (mode === MODE_EID) {
+    if (ramadanBtn) ramadanBtn.style.display = "none";
+  }
 }
 
 // ========= LOGIN =========
