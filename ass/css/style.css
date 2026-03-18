@@ -35,6 +35,20 @@ body{
   overflow-y:auto;
 }
 
+body.theme-ramadan{
+  background:
+    radial-gradient(1000px 650px at 90% 10%, rgba(255,214,107,.10), transparent 60%),
+    radial-gradient(900px 650px at 10% 20%, rgba(39,136,109,.14), transparent 55%),
+    linear-gradient(180deg, #071016, #041018);
+}
+
+body.theme-eid{
+  background:
+    radial-gradient(1000px 650px at 90% 10%, rgba(61,219,255,.16), transparent 60%),
+    radial-gradient(900px 650px at 10% 20%, rgba(255,214,107,.16), transparent 55%),
+    linear-gradient(180deg, #08121c, #07111a);
+}
+
 body.modal-open{
   overflow:hidden;
 }
@@ -43,7 +57,6 @@ body.modal-open{
   display:none!important;
 }
 
-/* ===== General Layout ===== */
 .wrap{
   max-width:680px;
   margin:0 auto;
@@ -87,7 +100,6 @@ body.modal-open{
   flex:1;
 }
 
-/* ===== Buttons ===== */
 .btn{
   border:0;
   border-radius:16px;
@@ -98,6 +110,17 @@ body.modal-open{
   box-shadow:0 14px 34px rgba(255,77,148,.20);
   cursor:pointer;
   transition:transform .18s ease, opacity .18s ease;
+}
+
+.theme-ramadan .btn{
+  background:linear-gradient(135deg,#d9b45f,#27886d);
+  box-shadow:0 14px 34px rgba(217,180,95,.16);
+}
+
+.theme-eid .btn{
+  background:linear-gradient(135deg,#ffd66b,#45cfff);
+  color:#102030;
+  box-shadow:0 14px 34px rgba(69,207,255,.16);
 }
 
 .btn:hover{
@@ -112,9 +135,9 @@ body.modal-open{
   background:rgba(255,255,255,.06);
   border:1px solid var(--border);
   box-shadow:none;
+  color:var(--txt);
 }
 
-/* ===== Cards ===== */
 .card{
   background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.045));
   border:1px solid var(--border);
@@ -129,8 +152,7 @@ body.modal-open{
   content:"";
   position:absolute;
   inset:0;
-  background:
-    radial-gradient(360px 140px at 0% 0%, rgba(255,255,255,.06), transparent 55%);
+  background:radial-gradient(360px 140px at 0% 0%, rgba(255,255,255,.06), transparent 55%);
   pointer-events:none;
 }
 
@@ -152,7 +174,21 @@ body.modal-open{
   font-weight:800;
 }
 
-/* ===== Text ===== */
+.passHints{
+  display:grid;
+  gap:8px;
+  margin:14px 0 0;
+}
+
+.hintChip{
+  padding:10px 12px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.04);
+  color:rgba(245,247,255,.8);
+  font-size:13px;
+}
+
 h1,h2,h3{
   margin:0 0 10px;
 }
@@ -181,7 +217,6 @@ p{
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 }
 
-/* ===== Inputs ===== */
 input{
   width:100%;
   border-radius:16px;
@@ -199,7 +234,6 @@ input:focus{
   box-shadow:0 0 0 4px rgba(255,255,255,.05);
 }
 
-/* ===== Top pills ===== */
 .pill{
   display:inline-flex;
   align-items:center;
@@ -220,7 +254,16 @@ input:focus{
   box-shadow:0 0 18px rgba(255,77,148,.75);
 }
 
-/* ===== Hero ===== */
+.theme-ramadan .dot{
+  background:#ffd66b;
+  box-shadow:0 0 18px rgba(255,214,107,.55);
+}
+
+.theme-eid .dot{
+  background:#45cfff;
+  box-shadow:0 0 18px rgba(69,207,255,.55);
+}
+
 .hero{
   position:relative;
   z-index:2;
@@ -234,6 +277,20 @@ input:focus{
     rgba(255,255,255,.05);
   overflow:hidden;
   box-shadow:var(--shadow);
+}
+
+.theme-ramadan .hero{
+  background:
+    radial-gradient(450px 200px at 0% 0%, rgba(217,180,95,.14), transparent 60%),
+    radial-gradient(420px 220px at 100% 100%, rgba(39,136,109,.12), transparent 60%),
+    rgba(255,255,255,.04);
+}
+
+.theme-eid .hero{
+  background:
+    radial-gradient(450px 200px at 0% 0%, rgba(255,214,107,.14), transparent 60%),
+    radial-gradient(420px 220px at 100% 100%, rgba(69,207,255,.12), transparent 60%),
+    rgba(255,255,255,.05);
 }
 
 .heroGlow{
@@ -289,6 +346,18 @@ input:focus{
     rgba(0,0,0,.18);
 }
 
+.theme-ramadan .largeStat{
+  background:
+    linear-gradient(135deg, rgba(217,180,95,.12), rgba(39,136,109,.12)),
+    rgba(0,0,0,.18);
+}
+
+.theme-eid .largeStat{
+  background:
+    linear-gradient(135deg, rgba(255,214,107,.14), rgba(69,207,255,.14)),
+    rgba(0,0,0,.18);
+}
+
 .statLabel{
   font-size:12px;
   color:rgba(245,247,255,.64);
@@ -304,7 +373,6 @@ input:focus{
   word-break:break-word;
 }
 
-/* ===== Action Cards ===== */
 .actionsGrid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -355,7 +423,6 @@ input:focus{
   line-height:1.7;
 }
 
-/* ===== Section ===== */
 .grid{
   display:grid;
   gap:12px;
@@ -391,7 +458,6 @@ input:focus{
   font-size:12px;
 }
 
-/* ===== Messages ===== */
 .msgs{
   display:grid;
   gap:12px;
@@ -408,6 +474,20 @@ input:focus{
   opacity:0;
   transform:translateY(10px);
   animation:pop .6s ease forwards;
+}
+
+.theme-ramadan .msgCard{
+  background:
+    radial-gradient(260px 100px at 100% 0%, rgba(217,180,95,.10), transparent 60%),
+    radial-gradient(240px 100px at 0% 100%, rgba(39,136,109,.08), transparent 60%),
+    rgba(0,0,0,.18);
+}
+
+.theme-eid .msgCard{
+  background:
+    radial-gradient(260px 100px at 100% 0%, rgba(69,207,255,.10), transparent 60%),
+    radial-gradient(240px 100px at 0% 100%, rgba(255,214,107,.08), transparent 60%),
+    rgba(0,0,0,.18);
 }
 
 .msgCard:nth-child(1){animation-delay:.04s}
@@ -458,7 +538,6 @@ input:focus{
   }
 }
 
-/* ===== Gallery ===== */
 .gallery,
 .vThumbs{
   display:grid;
@@ -528,6 +607,18 @@ input:focus{
     rgba(255,255,255,.04);
 }
 
+.theme-ramadan .moreCard{
+  background:
+    linear-gradient(135deg, rgba(217,180,95,.16), rgba(39,136,109,.16)),
+    rgba(255,255,255,.04);
+}
+
+.theme-eid .moreCard{
+  background:
+    linear-gradient(135deg, rgba(255,214,107,.16), rgba(69,207,255,.16)),
+    rgba(255,255,255,.04);
+}
+
 .moreInner{
   text-align:center;
   padding:10px;
@@ -546,7 +637,6 @@ input:focus{
   line-height:1.7;
 }
 
-/* ===== Timeline ===== */
 .timeline{
   display:grid;
   gap:12px;
@@ -589,6 +679,17 @@ input:focus{
   box-shadow:0 10px 24px rgba(255,77,148,.22);
 }
 
+.theme-ramadan .timelineDot{
+  background:linear-gradient(135deg,#d9b45f,#27886d);
+  box-shadow:0 10px 24px rgba(217,180,95,.22);
+}
+
+.theme-eid .timelineDot{
+  background:linear-gradient(135deg,#ffd66b,#45cfff);
+  color:#102030;
+  box-shadow:0 10px 24px rgba(69,207,255,.22);
+}
+
 .timelineCard{
   flex:1;
   padding:13px 14px;
@@ -629,7 +730,6 @@ input:focus{
   color:rgba(245,247,255,.94);
 }
 
-/* ===== Footer ===== */
 .footerNote{
   text-align:center;
   margin:18px 0 0;
@@ -637,7 +737,6 @@ input:focus{
   font-size:12px;
 }
 
-/* ===== Modal ===== */
 .modalBack{
   position:fixed;
   inset:0;
@@ -688,7 +787,6 @@ input:focus{
   margin:10px 0 0;
 }
 
-/* ===== Modal content ===== */
 .lightImg{
   width:100%;
   border-radius:18px;
@@ -714,7 +812,20 @@ input:focus{
     rgba(0,0,0,.18);
   line-height:2;
   color:rgba(245,247,255,.92);
-  white-space:normal;
+}
+
+.theme-ramadan .messageSheet{
+  background:
+    radial-gradient(260px 120px at 100% 0%, rgba(217,180,95,.10), transparent 60%),
+    radial-gradient(260px 120px at 0% 100%, rgba(39,136,109,.08), transparent 60%),
+    rgba(0,0,0,.18);
+}
+
+.theme-eid .messageSheet{
+  background:
+    radial-gradient(260px 120px at 100% 0%, rgba(69,207,255,.10), transparent 60%),
+    radial-gradient(260px 120px at 0% 100%, rgba(255,214,107,.08), transparent 60%),
+    rgba(0,0,0,.18);
 }
 
 .allGrid{
@@ -746,7 +857,6 @@ input:focus{
   inset:auto 10px 10px auto;
 }
 
-/* ===== Hearts / Ramadan ===== */
 .hearts{
   position:fixed;
   inset:0;
@@ -761,7 +871,7 @@ input:focus{
   width:14px;
   height:14px;
   transform:rotate(45deg);
-  background:var(--a);
+  background:#ff4d94;
   opacity:.14;
   animation:floatUp linear infinite;
 }
@@ -773,7 +883,7 @@ input:focus{
   width:14px;
   height:14px;
   border-radius:50%;
-  background:var(--a);
+  background:#ff4d94;
 }
 
 .heart:before{
@@ -784,25 +894,6 @@ input:focus{
 .heart:after{
   left:0;
   top:-7px;
-}
-
-@keyframes floatUp{
-  from{
-    transform:translateY(0) rotate(45deg) scale(.9);
-    opacity:0;
-  }
-  12%{
-    opacity:.14;
-  }
-  to{
-    transform:translateY(-115vh) rotate(45deg) scale(1.2);
-    opacity:0;
-  }
-}
-
-body.ramadan .dot{
-  background:#ffd66b;
-  box-shadow:0 0 18px rgba(255,214,107,.55);
 }
 
 .moon{
@@ -847,7 +938,40 @@ body.ramadan .dot{
   border:1px solid rgba(255,214,107,.25);
 }
 
-/* ===== Responsive ===== */
+.spark{
+  position:absolute;
+  bottom:-40px;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#45cfff;
+  box-shadow:0 0 14px rgba(69,207,255,.45);
+  opacity:.20;
+  animation:floatUp linear infinite;
+}
+
+.spark::after{
+  content:"";
+  position:absolute;
+  inset:-4px;
+  border-radius:50%;
+  border:1px solid rgba(255,214,107,.25);
+}
+
+@keyframes floatUp{
+  from{
+    transform:translateY(0) scale(.9);
+    opacity:0;
+  }
+  12%{
+    opacity:.16;
+  }
+  to{
+    transform:translateY(-115vh) scale(1.2);
+    opacity:0;
+  }
+}
+
 @media (max-width: 640px){
   .wrap{
     padding:14px 12px 80px;

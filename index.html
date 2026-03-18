@@ -7,14 +7,20 @@
   <title>🎁 هدية</title>
 </head>
 
-<body>
+<body class="theme-doou">
   <div class="hearts" id="hearts"></div>
 
   <main class="center" id="login">
     <section class="card loginCard">
       <div class="loginBadge">❤️ هدية مخصوص</div>
       <h1>يا رنوشتي ✨</h1>
-      <p>اكتبي كلمة السر… وأنا هفتحلك كل الذكريات والرسائل 😌</p>
+      <p>اكتبي كلمة السر… وأنا هفتحلك الوضع المناسب ليكي 😌</p>
+
+      <div class="passHints">
+        <div class="hintChip">1) بحبك يا دوو</div>
+        <div class="hintChip">2) بحبك يا ممدوح</div>
+        <div class="hintChip">3) انت عمري</div>
+      </div>
 
       <div style="margin:12px 0 14px">
         <input id="pw" type="password" placeholder="كلمة السر" autocomplete="off"/>
@@ -26,7 +32,6 @@
     </section>
   </main>
 
-  <!-- APP -->
   <div id="app" class="hidden">
     <div class="top">
       <div class="bar">
@@ -43,7 +48,7 @@
         <div class="heroGlow"></div>
 
         <div class="heroText">
-          <div class="heroMini">For My Favorite Person</div>
+          <div class="heroMini" id="heroModeBadge">❤️ Doou Mode</div>
           <h2 class="heroTitle" id="heroTitle">يا Rana ✨</h2>
           <p id="heroSub">في هنا شوية كلام… شوية صور… وفي الآخر رسالة ❤️</p>
         </div>
@@ -60,7 +65,7 @@
           </div>
 
           <div class="statCard">
-            <div class="statLabel">💍 المناسبة</div>
+            <div class="statLabel">💫 الحالة</div>
             <div class="statValue">ذكرياتنا الجميلة</div>
           </div>
         </div>
@@ -97,7 +102,7 @@
           <div class="msgs" id="msgs"></div>
         </div>
 
-        <div class="card">
+        <div class="card" id="galleryCard">
           <div class="sectionHead">
             <div>
               <h3>📸 الصور</h3>
@@ -107,7 +112,7 @@
           <div class="gallery" id="gallery"></div>
         </div>
 
-        <div class="card">
+        <div class="card" id="engagementCard">
           <div class="sectionHead">
             <div>
               <h3>💍 ألبوم الخطوبة</h3>
@@ -151,7 +156,6 @@
     </audio>
   </div>
 
-  <!-- MODAL -->
   <div class="modalBack" id="modalBack">
     <div class="modal">
       <h3 id="mTitle">…</h3>

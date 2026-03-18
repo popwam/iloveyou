@@ -3,11 +3,12 @@ const PERSON_NAME = "رنوشتي";
 
 const MODE_DOOU = "doou";
 const MODE_MAMDOUH = "mamdouh";
+const MODE_EID = "eid";
 
 const PASSWORD_MAP = {
   "بحبك يا دوو": MODE_DOOU,
   "بحبك يا ممدوح": MODE_MAMDOUH,
-  "انت عمري": MODE_DOOU,
+  "انت عمري": MODE_EID,
 };
 
 let currentMode = MODE_DOOU;
@@ -16,8 +17,7 @@ const TOGETHER_START = new Date(2026, 0, 23, 0, 0, 0);
 
 const SONG_DOOU = "ass/song/rana.mp3";
 const SONG_MAMDOUH = "ass/song/rana.m4a";
-
-const LOVE_WORDS = ["بحبك", "احبك", "بحبك يا دوو", "بحبك يا ممدوح", "انت عمري"];
+const SONG_EID = "ass/song/rana.mp3";
 
 const MESSAGES_DOOU = [
   "يا رنوشتي… لو زعلتك يوم فده آخر حاجة كنت أتمنى أعملها، لأن زعلك بيوجع قلبي قبلك ❤️",
@@ -41,7 +41,17 @@ const MESSAGES_MAMDOUH = [
   "اللهم اجعل بيتنا يومًا ما مليئًا بالحب والرحمة والطمأنينة 🕌",
   "يا رب اكتب لنا فرحة العيد مع بعض، وقرب كل المسافات بينا 🤍"
 ];
- 
+
+const MESSAGES_EID = [
+  "كل سنة وإنتِ فرحتي اللي بتكمل أي عيد 🎉",
+  "العيد بوجودك أحلى، والفرحة معاكي أكبر ❤️",
+  "إنتِ مش بس ذكرى جميلة… إنتِ أجمل عيد جالي 🤍",
+  "كل ضحكة منك في العيد بتساوي الدنيا كلها ✨",
+  "نفسي كل أعيادي الجاية تكون وإنتِ فيها ومعايا 🫶",
+  "العيد مش زينة بس… العيد إنتِ 🌙",
+  "كل سنة وإنتِ أقرب حد لقلبي 💞"
+];
+
 const TIMELINE = [
   { date: "23/1/2026", text: "أول لقاء بينا 💫" },
   { date: "12/2/2026", text: "اتفقنا إني هركّبك معايا العربية… وكنت صادق ✨" },
@@ -57,7 +67,6 @@ const TIMELINE = [
   { date: "8/3/2026", text: "أول مرة أسمعك بتعيطي… ومكنتش عارف أعمل إيه، بس بجد أنا آسف وبحبك ❤️" }
 ];
 
-// ✅ fallback لو نسيت media.js
 const IMAGES_FALLBACK = [
   "ass/img/1.png",
   "ass/img/2.png",
@@ -137,7 +146,7 @@ function normalizeArabicSpaces(s) {
   return String(s || "").replace(/\s+/g, " ").trim();
 }
 
-// ========= MEDIA (from media.js) =========
+// ========= MEDIA =========
 function getMediaLists() {
   const m = window.MEDIA || null;
 
@@ -168,16 +177,14 @@ function getMediaLists() {
   };
 }
 
-// ========= UI background =========
-function spawnHearts() {
+// ========= BACKGROUND =========
+function spawnParticles() {
   const box = $("hearts");
   if (!box) return;
 
   box.innerHTML = "";
 
-  const isRamadan = document.body.classList.contains("ramadan");
-
-  if (isRamadan) {
+  if (document.body.classList.contains("theme-ramadan")) {
     for (let i = 0; i < 12; i++) {
       const m = document.createElement("div");
       m.className = "moon";
@@ -185,11 +192,10 @@ function spawnHearts() {
       m.style.animationDuration = (7 + Math.random() * 10) + "s";
       m.style.animationDelay = (Math.random() * 4) + "s";
       m.style.opacity = (0.12 + Math.random() * 0.16).toFixed(2);
-      m.style.transform = `translateY(0) rotate(${(Math.random() * 30 - 15).toFixed(0)}deg)`;
       box.appendChild(m);
     }
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 18; i++) {
       const s = document.createElement("div");
       s.className = "star";
       s.style.left = (Math.random() * 100) + "vw";
@@ -199,6 +205,18 @@ function spawnHearts() {
       box.appendChild(s);
     }
 
+    return;
+  }
+
+  if (document.body.classList.contains("theme-eid")) {
+    for (let i = 0; i < 16; i++) {
+      const s = document.createElement("div");
+      s.className = "spark";
+      s.style.left = (Math.random() * 100) + "vw";
+      s.style.animationDuration = (6 + Math.random() * 8) + "s";
+      s.style.animationDelay = (Math.random() * 4) + "s";
+      box.appendChild(s);
+    }
     return;
   }
 
@@ -317,14 +335,20 @@ window.__openVideoFromGallery = function (src) {
   openVideoLightbox(src);
 };
 
-// ========= RENDERERS =========
+// ========= RENDER =========
+function getMessagesByMode(mode) {
+  if (mode === MODE_MAMDOUH) return MESSAGES_MAMDOUH;
+  if (mode === MODE_EID) return MESSAGES_EID;
+  return MESSAGES_DOOU;
+}
+
 function renderMessages(mode) {
   const wrap = $("msgs");
   if (!wrap) return;
 
   wrap.innerHTML = "";
 
-  const list = mode === MODE_MAMDOUH ? MESSAGES_MAMDOUH : MESSAGES_DOOU;
+  const list = getMessagesByMode(mode);
 
   list.forEach((text, index) => {
     const item = document.createElement("article");
@@ -332,7 +356,7 @@ function renderMessages(mode) {
     item.innerHTML = `
       <div class="msgHead">
         <span class="msgIndex">${String(index + 1).padStart(2, "0")}</span>
-        <span class="msgBadge">رسالة</span>
+        <span class="msgBadge">${mode === MODE_MAMDOUH ? "دعوة" : mode === MODE_EID ? "عيد" : "رسالة"}</span>
       </div>
       <div class="msgBody">${text}</div>
     `;
@@ -449,14 +473,20 @@ function renderEngagement(engImages, engVideos) {
   renderPreviewVideos("engVideos", engVideos, "🎥 كل فيديوهات الخطوبة");
 }
 
-// ========= Audio =========
+// ========= AUDIO =========
 let audioOn = false;
+
+function getSongByMode(mode) {
+  if (mode === MODE_MAMDOUH) return SONG_MAMDOUH;
+  if (mode === MODE_EID) return SONG_EID;
+  return SONG_DOOU;
+}
 
 function setSongByMode(mode) {
   const audio = $("bgm");
   if (!audio) return;
 
-  const src = mode === MODE_MAMDOUH ? SONG_MAMDOUH : SONG_DOOU;
+  const src = getSongByMode(mode);
   const sourceEl = audio.querySelector("source");
   const currentSrc = sourceEl?.getAttribute("src");
 
@@ -489,7 +519,7 @@ async function tryAutoPlay() {
   }
 }
 
-// ========= Counter Y/M/D HH:mm:ss =========
+// ========= COUNTER =========
 function diffYMDHMS(start, end) {
   let from = new Date(start);
   let years = 0;
@@ -548,6 +578,69 @@ function updateTogetherCounter() {
     `${d.years}Y ${d.months}M ${d.days}D ${pad2(d.hours)}:${pad2(d.minutes)}:${pad2(d.seconds)}`;
 }
 
+// ========= MODE =========
+function applyModeTheme(mode) {
+  document.body.classList.remove("theme-doou", "theme-ramadan", "theme-eid");
+  document.body.classList.add(
+    mode === MODE_MAMDOUH
+      ? "theme-ramadan"
+      : mode === MODE_EID
+      ? "theme-eid"
+      : "theme-doou"
+  );
+}
+
+function applyModeSections(mode) {
+  const engagementCard = $("engagementCard");
+  const galleryCard = $("galleryCard");
+  const ramadanBtn = $("openRamadanBtn");
+  const eidBtn = $("openEidBtn");
+  const finalBtn = $("openFinalBtn");
+
+  // default all visible
+  show(engagementCard);
+  show(galleryCard);
+  show(ramadanBtn);
+  show(eidBtn);
+  show(finalBtn);
+
+  if (mode === MODE_MAMDOUH) {
+    hide(engagementCard); // بدون صور/فيديوهات الخطوبة
+    hide(eidBtn);
+  }
+
+  if (mode === MODE_EID) {
+    show(galleryCard);
+    show(eidBtn);
+    hide(ramadanBtn);
+  }
+}
+
+function applyHeroContent(mode) {
+  const title = $("heroTitle");
+  const sub = $("heroSub");
+  const heroMode = $("heroModeBadge");
+
+  if (!title || !sub || !heroMode) return;
+
+  title.textContent = `يا ${PERSON_NAME} ✨`;
+
+  if (mode === MODE_MAMDOUH) {
+    heroMode.textContent = "🌙 Ramadan Mode";
+    sub.textContent = "وضع رمضاني هادي… دعوات، كلام جميل، وذكريات مناسبة للشهر الكريم.";
+    return;
+  }
+
+  if (mode === MODE_EID) {
+    heroMode.textContent = "🎉 Eid Mode";
+    sub.textContent = "وضع العيد… فرحة، رسالة عيد، وجو ألطف ومبهج أكتر.";
+    return;
+  }
+
+  heroMode.textContent = "❤️ Doou Mode";
+  sub.textContent = "كل الصور والرسائل والذكريات الجميلة موجودة هنا ليكي.";
+}
+
 // ========= LOGIN =========
 function detectModeFromPassword(pw) {
   const v = normalizeArabicSpaces(pw);
@@ -561,18 +654,9 @@ function enter() {
   const mode = detectModeFromPassword(v);
 
   if (!mode) {
-    if (LOVE_WORDS.includes(v)) {
-      openModal({
-        title: "🙈",
-        text: "الكلمة دي جميلة جدًا… بس مش كلمة السر المطلوبة 😌",
-        actions: [{ label: "تمام", onClick: closeModal }],
-      });
-      return;
-    }
-
     openModal({
       title: "🙈",
-      text: "كلمة السر غلط 😅 جربي تاني",
+      text: "كلمة السر غلط… جربي تاني 💛",
       actions: [{ label: "تمام", onClick: closeModal }],
     });
     return;
@@ -583,15 +667,12 @@ function enter() {
   hide($("login"));
   show($("app"));
 
-  $("heroTitle").textContent = `يا ${PERSON_NAME} ✨`;
-  $("heroSub").textContent =
-    currentMode === MODE_MAMDOUH
-      ? "هنا شوية دعوات وكلام من القلب… وشوية ذكريات جميلة 🌙"
-      : "هنا شوية كلام… وشوية صور… ورسائل مخصوص ليكي ❤️";
+  applyModeTheme(mode);
+  applyHeroContent(mode);
+  applyModeSections(mode);
+  spawnParticles();
 
-  document.body.classList.toggle("ramadan", currentMode === MODE_MAMDOUH);
-  spawnHearts();
-  renderMessages(currentMode);
+  renderMessages(mode);
   renderTimeline();
   updateTogetherCounter();
 
@@ -599,10 +680,11 @@ function enter() {
   renderPreviewGallery("gallery", media.generalImages, "📸 كل الصور");
   renderEngagement(media.engImages, media.engVideos);
 
-  setSongByMode(currentMode);
+  setSongByMode(mode);
   tryAutoPlay();
 
-  setInterval(updateTogetherCounter, 1000);
+  if (window.__counterInterval) clearInterval(window.__counterInterval);
+  window.__counterInterval = setInterval(updateTogetherCounter, 1000);
 }
 
 // ========= MESSAGE OPENERS =========
@@ -633,8 +715,10 @@ function openEidMessage() {
   });
 }
 
-// ========= DOM Ready =========
+// ========= DOM =========
 document.addEventListener("DOMContentLoaded", () => {
+  spawnParticles();
+
   on("audioBtn", "click", async () => {
     const audio = $("bgm");
     const audioBtn = $("audioBtn");
@@ -671,6 +755,4 @@ document.addEventListener("DOMContentLoaded", () => {
   on("modalBack", "click", (e) => {
     if (e.target && e.target.id === "modalBack") closeModal();
   });
-
-  spawnHearts();
 });
